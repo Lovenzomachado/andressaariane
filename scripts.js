@@ -344,28 +344,14 @@ window.addEventListener('mousemove', function(e) { gMouseX = e.clientX; gMouseY 
 var savedScrollY    = 0;
 var currentPopupId  = null;
 
-// Detect base path so the site works on GitHub Pages subdirectories
-// e.g. username.github.io/portfolio/ → basePath = '/portfolio/'
-//      username.github.io/           → basePath = '/'
-var basePath = (function() {
-  var path = window.location.pathname;
-  // Strip any trailing slug that matches a known popup
-  var slugs = ['ipanema-pluma','elev-experience','quinto-andar','unimed','kero-faze','museu-da-puc'];
-  for (var i = 0; i < slugs.length; i++) {
-    var re = new RegExp('/' + slugs[i] + '/?$');
-    if (re.test(path)) { path = path.replace(re, '/'); break; }
-  }
-  return path.endsWith('/') ? path : path + '/';
-})();
-
-// slug → popup ID map
+// URL → popup ID map
 var urlPopupMap = {
-  'ipanema-pluma':   'ipanema-pluma-popup',
-  'elev-experience': 'elev-experience-popup',
-  'quinto-andar':    'quinto-andar-popup',
-  'unimed':          'unimed-popup',
-  'kero-faze':       'kero-faze-popup',
-  'museu-da-puc':    'museu-da-puc-popup',
+  '/ipanema-pluma':   'ipanema-pluma-popup',
+  '/elev-experience': 'elev-experience-popup',
+  '/quinto-andar':    'quinto-andar-popup',
+  '/unimed':          'unimed-popup',
+  '/kero-faze':       'kero-faze-popup',
+  '/museu-da-puc':    'museu-da-puc-popup',
 };
 
 function openPopup(popupId, urlPath) {
@@ -398,9 +384,7 @@ function openPopup(popupId, urlPath) {
   if (content) content.scrollTop = 0;
 
   if (urlPath && window.history && window.history.pushState) {
-    // urlPath is a slug (e.g. 'ipanema-pluma'); prepend basePath for correct URL
-    var fullUrl = basePath + urlPath;
-    window.history.pushState({ popup: popupId, scrollY: savedScrollY }, '', fullUrl);
+    window.history.pushState({ popup: popupId, scrollY: savedScrollY }, '', urlPath);
   }
 }
 
@@ -417,7 +401,7 @@ function closePopup() {
   currentPopupId = null;
 
   if (window.history && window.history.pushState) {
-    window.history.pushState({}, '', basePath);
+    window.history.pushState({}, '', '/');
   }
 
   window.scrollTo({ top: savedScrollY, behavior: 'instant' });
@@ -480,10 +464,8 @@ function closePopup() {
   });
 
   // ── Open popup if URL matches on page load ───────────────────────────────
-  // Extract slug by stripping basePath from current pathname
-  var currentSlug = window.location.pathname.replace(basePath, '').replace(/\/$/, '');
-  var matchedPopup = urlPopupMap[currentSlug];
+  var matchedPopup = urlPopupMap[window.location.pathname];
   if (matchedPopup) {
-    openPopup(matchedPopup, currentSlug);
+    openPopup(matchedPopup, window.location.pathname);
   }
 })();
