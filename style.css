@@ -1,7 +1,7 @@
 /* ── Cas Drumhead ──────────────────────────────────────────────────────────── */
 @font-face {
   font-family: 'Cas Drumhead';
-  src: url('/fonts/CasDrumhead.otf') format('opentype');
+  src: url('./fonts/CasDrumhead.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
