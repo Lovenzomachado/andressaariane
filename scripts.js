@@ -346,12 +346,12 @@ var currentPopupId  = null;
 
 // URL → popup ID map
 var urlPopupMap = {
-  '/ipanema-pluma':   'ipanema-pluma-popup',
-  '/elev-experience': 'elev-experience-popup',
-  '/quinto-andar':    'quinto-andar-popup',
-  '/unimed':          'unimed-popup',
-  '/kero-faze':       'kero-faze-popup',
-  '/museu-da-puc':    'museu-da-puc-popup',
+  './ipanema-pluma':   'ipanema-pluma-popup',
+  './elev-experience': 'elev-experience-popup',
+  './quinto-andar':    'quinto-andar-popup',
+  './unimed':          'unimed-popup',
+  './kero-faze':       'kero-faze-popup',
+  './museu-da-puc':    'museu-da-puc-popup',
 };
 
 function openPopup(popupId, urlPath) {
@@ -401,7 +401,7 @@ function closePopup() {
   currentPopupId = null;
 
   if (window.history && window.history.pushState) {
-    window.history.pushState({}, '', '/');
+    window.history.pushState({}, '', './');
   }
 
   window.scrollTo({ top: savedScrollY, behavior: 'instant' });
@@ -464,8 +464,14 @@ function closePopup() {
   });
 
   // ── Open popup if URL matches on page load ───────────────────────────────
-  var matchedPopup = urlPopupMap[window.location.pathname];
+  var pathname = window.location.pathname;
+  // Normalize: strip trailing slash, get last segment
+  var segment = pathname.replace(/\/$/, '').split('/').pop();
+  var matchedPopup = null;
+  if (segment) {
+    matchedPopup = urlPopupMap['./' + segment] || null;
+  }
   if (matchedPopup) {
-    openPopup(matchedPopup, window.location.pathname);
+    openPopup(matchedPopup, './' + segment);
   }
 })();
