@@ -80,10 +80,15 @@
   font-size: clamp(80px, 10vw, 200px);
 }
 
-/* Tela 1920px ou mais: 200px */
+/* Tela 1920px ou mais: 200px com espaçamento de -12px */
 @media (min-width: 1920px) {
   .project-item .label {
     font-size: 200px;
+  }
+  
+  /* Espaçamento negativo entre os itens da lista */
+  .project-item {
+    margin-bottom: -12px;
   }
 }
 
@@ -248,6 +253,7 @@ nav {
 
   .project-item {
     padding: 4px 20px 4px 20px;
+    margin-bottom: 0; /* Remove o margin negativo no mobile */
   }
 
   .project-item .label {
@@ -328,6 +334,7 @@ nav {
   
   .project-item {
     padding: 6px 28px 6px 40px;
+    margin-bottom: 0; /* Remove o margin negativo em tablets */
   }
 }
 </style>
@@ -396,11 +403,22 @@ const projects = [
 // CONFIGURAÇÃO
 // ─────────────────────────────────────────────────────────────────────────────
 const isMobile = window.innerWidth <= 768;
-const ITEM_HEIGHT_DESKTOP = 220;
+
+// Altura dos itens: 220px padrão, com margin-bottom -12px em telas 1920px+
+// O valor efetivo do spacing entre itens é ITEM_H + margin-bottom
+let itemHeight = 220;
+
+// Ajusta a altura base para telas 1920px+ considerando o margin-bottom negativo
+if (window.innerWidth >= 1920) {
+  itemHeight = 208; // 220 - 12 = 208 (compensando o margin-bottom negativo)
+} else {
+  itemHeight = 220;
+}
+
 const ITEM_HEIGHT_MOBILE = 70;
 
 const CONFIG = {
-  ITEM_H: isMobile ? ITEM_HEIGHT_MOBILE : ITEM_HEIGHT_DESKTOP,
+  ITEM_H: isMobile ? ITEM_HEIGHT_MOBILE : itemHeight,
   COPIES: 7,
   LERP: 0.038,
   WHEEL_SPEED: 0.42,
