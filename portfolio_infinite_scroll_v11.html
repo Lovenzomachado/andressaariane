@@ -1,0 +1,454 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap');
+
+#portfolio-root {
+  width: 100%;
+  height: 100vh;
+  min-height: 520px;
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Grid principal 12 colunas ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  height: 100%;
+}
+
+/* ── Coluna esquerda: 8 de 12 colunas ── */
+.col-left {
+  grid-column: 1 / 9;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Coluna direita: 4 de 12 colunas ── */
+.col-right {
+  grid-column: 9 / 13;
+  position: relative;
+  overflow: hidden;
+  border-left: 0.5px solid #e8e8e8;
+  background: #f8f8f8;
+}
+
+/* ── Track que se move verticalmente com o scroll ── */
+.project-track {
+  position: absolute;
+  width: 100%;
+  will-change: transform;
+  /* top: 0 — o offset inicial é calculado em JS com base no número de cópias acima */
+}
+
+/* ── Item individual da lista ──
+   justify-content: space-between empurra título para esquerda e tag para direita */
+.project-item {
+  padding: 0 28px 0 52px; /* padding-right menor para tag chegar perto da borda */
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  opacity: 0.2;
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.project-item.active { opacity: 1; }
+
+/* ── Nome do projeto ── */
+.project-item .label {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(32px, 4.6vw, 62px); /* responsivo: mín 32px, ideal 4.6vw, máx 62px */
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: #000;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Tag descritiva — fica na borda direita, próxima às imagens ── */
+.project-item .tag {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;               /* tamanho da tag */
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #aaa;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease 0.15s;
+  padding-bottom: 7px;          /* alinha visualmente com a baseline do título */
+}
+.project-item.active .tag { opacity: 1; }
+
+/* ── Stage das imagens ── */
+.image-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+}
+
+/* ── Cada slot ocupa metade da altura ── */
+.image-slot {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-slide {
+  position: absolute;
+  inset: 0;
+}
+.image-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Label sobreposto na imagem ── */
+.img-label {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+}
+
+/* ── Navegação superior ── */
+nav {
+  position: absolute;
+  top: 26px; left: 52px; right: 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+}
+.nav-logo {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #000;
+}
+.nav-links { display: flex; gap: 28px; }
+.nav-links a {
+  font-size: 8.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #aaa;
+  text-decoration: none;
+  pointer-events: all;
+}
+
+/* ── Hint de scroll ── */
+.scroll-hint {
+  position: absolute;
+  bottom: 26px; left: 52px;
+  font-size: 8.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.scroll-hint::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 0.5px;
+  background: #ccc;
+}
+
+/* ── Contador ── */
+.counter {
+  position: absolute;
+  bottom: 26px; right: 26px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  color: #ccc;
+}
+.counter span { color: #000; font-size: 12px; font-weight: 700; }
+</style>
+
+<div id="portfolio-root">
+  <nav>
+    <div class="nav-logo">Andressa Ariane</div>
+    <div class="nav-links">
+      <a href="#">Sobre mim</a>
+      <a href="#">Contato</a>
+    </div>
+  </nav>
+
+  <div class="grid">
+    <div class="col-left" id="left-col">
+      <div class="project-track" id="project-track"></div>
+    </div>
+    <div class="col-right">
+      <div class="image-stage" id="image-stage">
+        <div class="image-slot" id="slot-top"></div>
+        <div class="image-slot" id="slot-bot"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">Scroll para navegar</div>
+  <div class="counter"><span id="counter-num">01</span> / 07</div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// PROJETOS
+// ─────────────────────────────────────────────────────────────────────────────
+const projects = [
+  { name: "Ipanema Pluma",   tag: "Identidade Visual", images: [
+    "https://images.unsplash.com/photo-1523381294911-8d3cead13475?w=500&h=400&fit=crop",
+    "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=500&h=400&fit=crop"
+  ]},
+  { name: "Quinto Andar",    tag: "Branding Digital", images: [
+    "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=500&h=400&fit=crop",
+    "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=500&h=400&fit=crop"
+  ]},
+  { name: "Élev Experience", tag: "Skincare Print", images: [
+    "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500&h=400&fit=crop",
+    "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&h=400&fit=crop"
+  ]},
+  { name: "Unimed VTRP",     tag: "Campanha", images: [
+    "https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=500&h=400&fit=crop",
+    "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&h=400&fit=crop"
+  ]},
+  { name: "Kero Fazê",       tag: "Social Media", images: [
+    "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=500&h=400&fit=crop",
+    "https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=500&h=400&fit=crop"
+  ]},
+  { name: "Museu da PUC",    tag: "Editorial", images: [
+    "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=500&h=400&fit=crop",
+    "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=500&h=400&fit=crop"
+  ]},
+  { name: "Natura &Co",      tag: "Packaging", images: [
+    "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=500&h=400&fit=crop",
+    "https://images.unsplash.com/photo-1587556930799-8dca6fad6d43?w=500&h=400&fit=crop"
+  ]}
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONFIGURAÇÃO
+// ─────────────────────────────────────────────────────────────────────────────
+const CONFIG = {
+  ITEM_H:         88,
+  COPIES:         7,     // cópias totais — número ímpar para ter cópias simétricas acima e abaixo
+  LERP:           0.038,
+  WHEEL_SPEED:    0.42,
+  TOUCH_SPEED:    1.1,
+  IDLE_MS:        220,
+  ENTER_DELAY_MS: 380,
+
+  EXIT: {
+    duration:   500,
+    easing:     'cubic-bezier(0.4, 0, 1, 1)',
+    translateX: -24,
+  },
+  ENTER: {
+    duration:   1100,
+    easing:     'cubic-bezier(0.16, 1, 0.3, 1)',
+    translateX: 65,
+    stagger:    130,
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ELEMENTOS DO DOM
+// ─────────────────────────────────────────────────────────────────────────────
+const total      = projects.length;
+const track      = document.getElementById('project-track');
+const stage      = document.getElementById('image-stage');
+const slotTop    = document.getElementById('slot-top');
+const slotBot    = document.getElementById('slot-bot');
+const counterNum = document.getElementById('counter-num');
+const leftCol    = document.getElementById('left-col');
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GERA A LISTA REPETIDA
+// Número de cópias acima do centro = Math.floor(COPIES / 2)
+// Isso garante que ao iniciar (scrollY = 0, item 0 no centro),
+// já existam itens preenchendo para cima na tela
+// ─────────────────────────────────────────────────────────────────────────────
+for (let c = 0; c < CONFIG.COPIES; c++) {
+  projects.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'project-item';
+    el.style.height = CONFIG.ITEM_H + 'px';
+    el.innerHTML = `<span class="label">${p.name}</span><span class="tag">${p.tag}</span>`;
+    track.appendChild(el);
+  });
+}
+const allItems = Array.from(track.querySelectorAll('.project-item'));
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCROLL — o scrollY começa em um offset que representa "cópias acima"
+// Ex: com 3 cópias acima, scrollY inicial = 3 * total * ITEM_H
+// Assim o item 0 aparece no centro e a lista já está preenchida acima
+// ─────────────────────────────────────────────────────────────────────────────
+const COPIES_ABOVE = Math.floor(CONFIG.COPIES / 2); // cópias acima do ponto de partida
+const INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H; // scroll inicial que centraliza item 0
+
+let scrollY     = INITIAL_SCROLL;
+let targetY     = INITIAL_SCROLL;
+let prevScrollY = INITIAL_SCROLL;
+let lastDir     = 1;
+let isScrolling = false;
+let idleTimer   = null;
+let enterTimer  = null;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ESTADO DAS IMAGENS
+// ─────────────────────────────────────────────────────────────────────────────
+const state = { visible: false, activeIdx: -1 };
+
+function clearSlots() {
+  slotTop.innerHTML = '';
+  slotBot.innerHTML = '';
+}
+
+function hideStage() {
+  if (!state.visible) return;
+  state.visible   = false;
+  state.activeIdx = -1;
+  stage.style.transition = 'opacity 0.3s ease';
+  stage.style.opacity    = '0';
+  setTimeout(clearSlots, 320);
+}
+
+function showProject(idx, dir) {
+  if (state.activeIdx === idx) return;
+  state.activeIdx = idx;
+  state.visible   = true;
+
+  clearSlots();
+
+  const p   = projects[idx];
+  const xIn = dir >= 0 ? CONFIG.ENTER.translateX : -CONFIG.ENTER.translateX;
+
+  [slotTop, slotBot].forEach((slot, si) => {
+    const slide = document.createElement('div');
+    slide.className = 'image-slide';
+    slide.innerHTML = `<img src="${p.images[si]}" /><span class="img-label">${p.tag} — 0${si + 1}</span>`;
+    slide.style.opacity   = '0';
+    slide.style.transform = `translateX(${xIn}px)`;
+    slot.appendChild(slide);
+
+    const delay = si === 1 ? CONFIG.ENTER.stagger : 0;
+    slide.animate(
+      [
+        { transform: `translateX(${xIn}px)`, opacity: 0 },
+        { transform: 'translateX(0px)',       opacity: 1 },
+      ],
+      { duration: CONFIG.ENTER.duration, delay, easing: CONFIG.ENTER.easing, fill: 'forwards' }
+    );
+  });
+
+  stage.style.transition = 'opacity 0.2s ease';
+  stage.style.opacity    = '1';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ÍNDICE ATIVO — baseado no scrollY absoluto
+// O wrap usa a lista completa (total * ITEM_H) para o loop infinito
+// ─────────────────────────────────────────────────────────────────────────────
+function getActiveIndex(y) {
+  const wrap = total * CONFIG.ITEM_H;
+  return Math.round(((y % wrap) + wrap) % wrap / CONFIG.ITEM_H) % total;
+}
+
+function onIdle() {
+  isScrolling = false;
+  const idx   = getActiveIndex(scrollY);
+  clearTimeout(enterTimer);
+  enterTimer  = setTimeout(() => showProject(idx, lastDir), CONFIG.ENTER_DELAY_MS);
+}
+
+function handleInput(delta) {
+  targetY += delta;
+  clearTimeout(enterTimer);
+
+  if (!isScrolling) {
+    isScrolling = true;
+    hideStage();
+  }
+
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(onIdle, CONFIG.IDLE_MS);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOOP
+// ─────────────────────────────────────────────────────────────────────────────
+function loop() {
+  scrollY += (targetY - scrollY) * CONFIG.LERP;
+
+  // Wrapping: mantém scrollY dentro de uma faixa segura para o loop funcionar
+  const wrap     = total * CONFIG.ITEM_H;
+  const wrapLow  = INITIAL_SCROLL - wrap;       // limite inferior antes de resetar
+  const wrapHigh = INITIAL_SCROLL + wrap * (CONFIG.COPIES - COPIES_ABOVE - 1); // limite superior
+
+  if (scrollY > wrapHigh) { scrollY -= wrap; targetY -= wrap; }
+  if (scrollY < wrapLow)  { scrollY += wrap; targetY += wrap; }
+
+  // Centraliza o item ativo verticalmente na coluna esquerda
+  const colH   = leftCol.clientHeight;
+  const center = colH / 2 - CONFIG.ITEM_H / 2;
+  track.style.transform = `translateY(${Math.round(-scrollY + center)}px)`;
+
+  const vel = scrollY - prevScrollY;
+  if (Math.abs(vel) > 0.01) lastDir = vel > 0 ? 1 : -1;
+  prevScrollY = scrollY;
+
+  const ai = getActiveIndex(scrollY);
+  counterNum.textContent = String(ai + 1).padStart(2, '0');
+  allItems.forEach((el, gi) => el.classList.toggle('active', (gi % total) === ai));
+
+  requestAnimationFrame(loop);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EVENTOS
+// ─────────────────────────────────────────────────────────────────────────────
+const root = document.getElementById('portfolio-root');
+
+root.addEventListener('wheel', e => {
+  e.preventDefault();
+  handleInput(e.deltaY * CONFIG.WHEEL_SPEED);
+}, { passive: false });
+
+let touchY = null;
+root.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
+root.addEventListener('touchmove', e => {
+  e.preventDefault();
+  handleInput((touchY - e.touches[0].clientY) * CONFIG.TOUCH_SPEED);
+  touchY = e.touches[0].clientY;
+}, { passive: false });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+loop();
+setTimeout(() => showProject(0, 1), 350);
+</script>
