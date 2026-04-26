@@ -232,11 +232,13 @@ nav {
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 100%;
   }
 
   .col-left {
     order: 2;
     grid-column: auto;
+    width: 100%;
     height: 40%;
     overflow: hidden;
   }
@@ -244,16 +246,17 @@ nav {
   .col-right {
     order: 1;
     grid-column: auto;
+    width: 100%;
+    height: 60%;
     border-left: none;
     border-bottom: 0.5px solid #e8e8e8;
-    height: 60%;
     position: relative;
     overflow: hidden;
   }
 
   .project-item {
     padding: 4px 20px 4px 20px;
-    margin-bottom: 0; /* Remove o margin negativo no mobile */
+    margin-bottom: 0 !important; /* Remove o margin negativo no mobile */
   }
 
   .project-item .label {
@@ -261,6 +264,7 @@ nav {
     white-space: nowrap;
     overflow-x: auto;
     overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
   .project-item .tag {
@@ -272,10 +276,13 @@ nav {
   .image-stage {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    height: 100%;
   }
 
   .image-slot {
     flex: 1;
+    width: 100%;
   }
 
   /* Esconde o segundo slot no mobile */
@@ -285,9 +292,17 @@ nav {
 
   .image-stage .image-slot:first-child {
     height: 100%;
+    width: 100%;
   }
 
+  .image-slide {
+    width: 100%;
+    height: 100%;
+  }
+  
   .image-slide img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 
@@ -334,7 +349,7 @@ nav {
   
   .project-item {
     padding: 6px 28px 6px 40px;
-    margin-bottom: 0; /* Remove o margin negativo em tablets */
+    margin-bottom: 0;
   }
 }
 </style>
@@ -400,104 +415,123 @@ const projects = [
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CONFIGURAÇÃO
+// FUNÇÃO PARA VERIFICAR SE É MOBILE
 // ─────────────────────────────────────────────────────────────────────────────
-const isMobile = window.innerWidth <= 768;
-
-// Altura dos itens: 220px padrão, com margin-bottom -12px em telas 1920px+
-// O valor efetivo do spacing entre itens é ITEM_H + margin-bottom
-let itemHeight = 220;
-
-// Ajusta a altura base para telas 1920px+ considerando o margin-bottom negativo
-if (window.innerWidth >= 1920) {
-  itemHeight = 208; // 220 - 12 = 208 (compensando o margin-bottom negativo)
-} else {
-  itemHeight = 220;
+function isMobileDevice() {
+  return window.innerWidth <= 768;
 }
 
-const ITEM_HEIGHT_MOBILE = 70;
-
-const CONFIG = {
-  ITEM_H: isMobile ? ITEM_HEIGHT_MOBILE : itemHeight,
-  COPIES: 7,
-  LERP: 0.038,
-  WHEEL_SPEED: 0.42,
-  TOUCH_SPEED: 1.1,
-  IDLE_MS: 220,
-  ENTER_DELAY_MS: 380,
-  EXIT: {
-    duration: 500,
-    easing: 'cubic-bezier(0.4, 0, 1, 1)',
-    translateX: -24,
-  },
-  ENTER: {
-    duration: 1100,
-    easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-    translateX: 65,
-    stagger: 130,
-  },
-};
-
 // ─────────────────────────────────────────────────────────────────────────────
-// ELEMENTOS DO DOM
+// CONFIGURAÇÃO DINÂMICA
 // ─────────────────────────────────────────────────────────────────────────────
-const total = projects.length;
-const track = document.getElementById('project-track');
-const stage = document.getElementById('image-stage');
-const slotTop = document.getElementById('slot-top');
-const slotBot = document.getElementById('slot-bot');
-const counterNum = document.getElementById('counter-num');
-const leftCol = document.getElementById('left-col');
-
-// ─────────────────────────────────────────────────────────────────────────────
-// GERA A LISTA REPETIDA
-// ─────────────────────────────────────────────────────────────────────────────
-for (let c = 0; c < CONFIG.COPIES; c++) {
-  projects.forEach(p => {
-    const el = document.createElement('div');
-    el.className = 'project-item';
-    el.style.height = CONFIG.ITEM_H + 'px';
-    el.innerHTML = `<span class="label">${p.name}</span><span class="tag">${p.tag}</span>`;
-    track.appendChild(el);
-  });
+function getItemHeight() {
+  if (isMobileDevice()) return 70;
+  
+  // Desktop: 220 padrão, mas em 1920+ compensa o margin-bottom
+  if (window.innerWidth >= 1920) return 208; // 220 - 12
+  return 220;
 }
-const allItems = Array.from(track.querySelectorAll('.project-item'));
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SCROLL
+// VARIÁVEIS GLOBAIS
 // ─────────────────────────────────────────────────────────────────────────────
-const COPIES_ABOVE = Math.floor(CONFIG.COPIES / 2);
-const INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H;
+let total = projects.length;
+let track = document.getElementById('project-track');
+let stage = document.getElementById('image-stage');
+let slotTop = document.getElementById('slot-top');
+let slotBot = document.getElementById('slot-bot');
+let counterNum = document.getElementById('counter-num');
+let leftCol = document.getElementById('left-col');
 
-let scrollY = INITIAL_SCROLL;
-let targetY = INITIAL_SCROLL;
-let prevScrollY = INITIAL_SCROLL;
-let lastDir = 1;
-let isScrolling = false;
-let idleTimer = null;
-let enterTimer = null;
+let allItems = [];
+let CONFIG = {};
+let scrollY, targetY, prevScrollY, lastDir, isScrolling, idleTimer, enterTimer;
+let state = { visible: false, activeIdx: -1 };
+let animationId = null;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ESTADO DAS IMAGENS
+// FUNÇÃO PARA RECONSTRUIR A LISTA
 // ─────────────────────────────────────────────────────────────────────────────
-const state = { visible: false, activeIdx: -1 };
+function rebuildList() {
+  if (!track) return;
+  
+  // Limpa o track
+  track.innerHTML = '';
+  
+  // Pega a altura atual dos itens
+  const itemHeight = getItemHeight();
+  
+  // Recria os itens
+  const COPIES = 7;
+  for (let c = 0; c < COPIES; c++) {
+    projects.forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'project-item';
+      el.style.height = itemHeight + 'px';
+      el.innerHTML = `<span class="label">${p.name}</span><span class="tag">${p.tag}</span>`;
+      track.appendChild(el);
+    });
+  }
+  
+  allItems = Array.from(track.querySelectorAll('.project-item'));
+  
+  // Reconfigura o scroll
+  const COPIES_ABOVE = Math.floor(COPIES / 2);
+  const INITIAL_SCROLL = COPIES_ABOVE * projects.length * itemHeight;
+  
+  scrollY = INITIAL_SCROLL;
+  targetY = INITIAL_SCROLL;
+  prevScrollY = INITIAL_SCROLL;
+  lastDir = 1;
+  isScrolling = false;
+  
+  if (idleTimer) clearTimeout(idleTimer);
+  if (enterTimer) clearTimeout(enterTimer);
+  
+  // Atualiza a configuração
+  CONFIG = {
+    ITEM_H: itemHeight,
+    COPIES: COPIES,
+    LERP: 0.038,
+    WHEEL_SPEED: 0.42,
+    TOUCH_SPEED: 1.1,
+    IDLE_MS: 220,
+    ENTER_DELAY_MS: 380,
+    EXIT: {
+      duration: 500,
+      easing: 'cubic-bezier(0.4, 0, 1, 1)',
+      translateX: -24,
+    },
+    ENTER: {
+      duration: 1100,
+      easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      translateX: 65,
+      stagger: 130,
+    },
+  };
+}
 
+// ─────────────────────────────────────────────────────────────────────────────
+// FUNÇÕES DO CARROSSEL
+// ─────────────────────────────────────────────────────────────────────────────
 function clearSlots() {
-  slotTop.innerHTML = '';
-  slotBot.innerHTML = '';
+  if (slotTop) slotTop.innerHTML = '';
+  if (slotBot) slotBot.innerHTML = '';
 }
 
 function hideStage() {
   if (!state.visible) return;
   state.visible = false;
   state.activeIdx = -1;
-  stage.style.transition = 'opacity 0.3s ease';
-  stage.style.opacity = '0';
+  if (stage) {
+    stage.style.transition = 'opacity 0.3s ease';
+    stage.style.opacity = '0';
+  }
   setTimeout(clearSlots, 320);
 }
 
 function showProject(idx, dir) {
-  if (state.activeIdx === idx) return;
+  if (state.activeIdx === idx || !stage || !slotTop) return;
   state.activeIdx = idx;
   state.visible = true;
 
@@ -505,6 +539,7 @@ function showProject(idx, dir) {
 
   const p = projects[idx];
   const xIn = dir >= 0 ? CONFIG.ENTER.translateX : -CONFIG.ENTER.translateX;
+  const isMobile = isMobileDevice();
 
   // No mobile, mostra apenas a primeira imagem (quadrada)
   if (isMobile) {
@@ -525,6 +560,7 @@ function showProject(idx, dir) {
   } else {
     // Desktop: mostra duas imagens
     [slotTop, slotBot].forEach((slot, si) => {
+      if (!slot) return;
       const slide = document.createElement('div');
       slide.className = 'image-slide';
       slide.innerHTML = `<img src="${p.images[si]}" /><span class="img-label">${p.tag} — 0${si + 1}</span>`;
@@ -547,12 +583,10 @@ function showProject(idx, dir) {
   stage.style.opacity = '1';
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ÍNDICE ATIVO
-// ─────────────────────────────────────────────────────────────────────────────
 function getActiveIndex(y) {
-  const wrap = total * CONFIG.ITEM_H;
-  return Math.round(((y % wrap) + wrap) % wrap / CONFIG.ITEM_H) % total;
+  if (!CONFIG.ITEM_H) return 0;
+  const wrap = projects.length * CONFIG.ITEM_H;
+  return Math.round(((y % wrap) + wrap) % wrap / CONFIG.ITEM_H) % projects.length;
 }
 
 function onIdle() {
@@ -575,13 +609,14 @@ function handleInput(delta) {
   idleTimer = setTimeout(onIdle, CONFIG.IDLE_MS);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// LOOP
-// ─────────────────────────────────────────────────────────────────────────────
 function loop() {
+  if (!CONFIG.ITEM_H || !leftCol) return;
+  
   scrollY += (targetY - scrollY) * CONFIG.LERP;
 
-  const wrap = total * CONFIG.ITEM_H;
+  const wrap = projects.length * CONFIG.ITEM_H;
+  const COPIES_ABOVE = Math.floor(CONFIG.COPIES / 2);
+  const INITIAL_SCROLL = COPIES_ABOVE * projects.length * CONFIG.ITEM_H;
   const wrapLow = INITIAL_SCROLL - wrap;
   const wrapHigh = INITIAL_SCROLL + wrap * (CONFIG.COPIES - COPIES_ABOVE - 1);
 
@@ -590,45 +625,88 @@ function loop() {
 
   const colH = leftCol.clientHeight;
   const center = colH / 2 - CONFIG.ITEM_H / 2;
-  track.style.transform = `translateY(${Math.round(-scrollY + center)}px)`;
+  if (track) {
+    track.style.transform = `translateY(${Math.round(-scrollY + center)}px)`;
+  }
 
   const vel = scrollY - prevScrollY;
   if (Math.abs(vel) > 0.01) lastDir = vel > 0 ? 1 : -1;
   prevScrollY = scrollY;
 
   const ai = getActiveIndex(scrollY);
-  counterNum.textContent = String(ai + 1).padStart(2, '0');
-  allItems.forEach((el, gi) => el.classList.toggle('active', (gi % total) === ai));
+  if (counterNum) {
+    counterNum.textContent = String(ai + 1).padStart(2, '0');
+  }
+  if (allItems) {
+    allItems.forEach((el, gi) => el.classList.toggle('active', (gi % projects.length) === ai));
+  }
 
-  requestAnimationFrame(loop);
+  animationId = requestAnimationFrame(loop);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// EVENTOS
+// FUNÇÃO PARA REINICIAR TUDO NO REDIMENSIONAMENTO
 // ─────────────────────────────────────────────────────────────────────────────
-const root = document.getElementById('portfolio-root');
-
-root.addEventListener('wheel', e => {
-  e.preventDefault();
-  handleInput(e.deltaY * CONFIG.WHEEL_SPEED);
-}, { passive: false });
-
-let touchY = null;
-root.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
-root.addEventListener('touchmove', e => {
-  e.preventDefault();
-  handleInput((touchY - e.touches[0].clientY) * CONFIG.TOUCH_SPEED);
-  touchY = e.touches[0].clientY;
-}, { passive: false });
+function resetAndRebuild() {
+  // Cancela a animação atual
+  if (animationId) {
+    cancelAnimationFrame(animationId);
+  }
+  
+  // Remove event listeners antigos
+  const root = document.getElementById('portfolio-root');
+  if (root) {
+    const newRoot = root.cloneNode(true);
+    root.parentNode.replaceChild(newRoot, root);
+    
+    // Re-adquire os elementos
+    track = document.getElementById('project-track');
+    stage = document.getElementById('image-stage');
+    slotTop = document.getElementById('slot-top');
+    slotBot = document.getElementById('slot-bot');
+    counterNum = document.getElementById('counter-num');
+    leftCol = document.getElementById('left-col');
+    
+    if (track) {
+      rebuildList();
+      
+      // Re-adiciona os event listeners
+      const newRootElement = document.getElementById('portfolio-root');
+      if (newRootElement) {
+        newRootElement.addEventListener('wheel', e => {
+          e.preventDefault();
+          handleInput(e.deltaY * CONFIG.WHEEL_SPEED);
+        }, { passive: false });
+        
+        let touchY = null;
+        newRootElement.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
+        newRootElement.addEventListener('touchmove', e => {
+          e.preventDefault();
+          handleInput((touchY - e.touches[0].clientY) * CONFIG.TOUCH_SPEED);
+          touchY = e.touches[0].clientY;
+        }, { passive: false });
+      }
+      
+      // Reinicia o loop
+      loop();
+      setTimeout(() => showProject(0, 1), 350);
+    }
+  }
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
-// INIT
+// INICIALIZAÇÃO
 // ─────────────────────────────────────────────────────────────────────────────
+rebuildList();
 loop();
 setTimeout(() => showProject(0, 1), 350);
 
-// Recalcula altura dos itens ao redimensionar
-window.addEventListener('resize', () => {
-  location.reload(); // Recarrega para ajustar configuração mobile/desktop
+// Evento de redimensionamento sem recarregar a página
+let resizeTimer;
+window.addEventListener('resize', function() {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function() {
+    resetAndRebuild();
+  }, 250);
 });
 </script>
