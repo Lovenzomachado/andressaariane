@@ -1,7 +1,15 @@
-
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap');
+
+/* ── FONTE MANGO GROTESQUE do GitHub ── */
+@font-face {
+  font-family: 'Mango Grotesque';
+  src: url('https://raw.githubusercontent.com/seu-usuario/seu-repo/main/Mango%20Grotesque.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 #portfolio-root {
   width: 100%;
@@ -58,10 +66,10 @@
 }
 .project-item.active { opacity: 1; }
 
-/* ── Nome do projeto ── */
+/* ── Nome do projeto com MANGO GROTESQUE ── */
 .project-item .label {
   display: block;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Mango Grotesque', 'DM Sans', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   font-size: clamp(32px, 4.6vw, 62px); /* responsivo: mín 32px, ideal 4.6vw, máx 62px */
@@ -72,9 +80,9 @@
   flex-shrink: 0;
 }
 
-/* ── Tag descritiva — fica na borda direita, próxima às imagens ── */
+/* ── Tag descritiva — fica na borda direita, próxima às imagens (ARIAL) ── */
 .project-item .tag {
-  font-family: 'DM Sans', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 9px;               /* tamanho da tag */
   font-weight: 300;
   letter-spacing: 0.18em;
@@ -115,7 +123,7 @@
   display: block;
 }
 
-/* ── Label sobreposto na imagem ── */
+/* ── Label sobreposto na imagem (ARIAL) ── */
 .img-label {
   position: absolute;
   bottom: 14px;
@@ -124,7 +132,7 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.45);
-  font-family: 'DM Sans', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-weight: 300;
 }
 
@@ -139,7 +147,7 @@ nav {
   pointer-events: none;
 }
 .nav-logo {
-  font-family: 'DM Sans', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 11px;
   font-weight: 400;
   letter-spacing: 0.14em;
@@ -148,6 +156,7 @@ nav {
 }
 .nav-links { display: flex; gap: 28px; }
 .nav-links a {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 8.5px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -160,6 +169,7 @@ nav {
 .scroll-hint {
   position: absolute;
   bottom: 26px; left: 52px;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 8.5px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -180,7 +190,7 @@ nav {
 .counter {
   position: absolute;
   bottom: 26px; right: 26px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 9px;
   font-weight: 300;
   letter-spacing: 0.14em;
