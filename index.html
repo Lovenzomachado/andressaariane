@@ -51,7 +51,7 @@
   will-change: transform;
 }
 
-/* ── Item individual da lista ── */
+/* ── Item individual da lista - altura AUTO ── */
 .project-item {
   padding: 8px 32px 8px 52px;
   user-select: none;
@@ -61,7 +61,10 @@
   justify-content: space-between;
   opacity: 0.2;
   transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  height: auto !important;
+  margin-bottom: -12px;
 }
+
 .project-item.active { opacity: 1; }
 
 /* ── Nome do projeto com MANGO GROTESQUE - Tamanho responsivo ── */
@@ -75,20 +78,13 @@
   color: #000;
   white-space: nowrap;
   flex-shrink: 0;
-  
-  /* Tamanho responsivo */
   font-size: clamp(80px, 10vw, 200px);
 }
 
-/* Tela 1920px ou mais: 200px com espaçamento de -12px */
+/* Tela 1920px ou mais: 200px */
 @media (min-width: 1920px) {
   .project-item .label {
     font-size: 200px;
-  }
-  
-  /* Espaçamento negativo entre os itens da lista */
-  .project-item {
-    margin-bottom: -12px;
   }
 }
 
@@ -125,7 +121,7 @@
   inset: 0;
   display: flex;
   flex-direction: column;
-  opacity: 0;
+  opacity: 1; /* Sempre visível */
 }
 
 .image-slot {
@@ -137,6 +133,7 @@
 .image-slide {
   position: absolute;
   inset: 0;
+  opacity: 1; /* Sempre opaco, sem fade */
 }
 .image-slide img {
   width: 100%;
@@ -155,6 +152,7 @@
   color: rgba(255,255,255,0.45);
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 300;
+  pointer-events: none;
 }
 
 /* ── Navegação superior ── */
@@ -256,7 +254,8 @@ nav {
 
   .project-item {
     padding: 4px 20px 4px 20px;
-    margin-bottom: 0 !important; /* Remove o margin negativo no mobile */
+    margin-bottom: 0 !important;
+    height: auto !important;
   }
 
   .project-item .label {
@@ -272,7 +271,6 @@ nav {
     padding-left: 10px;
   }
 
-  /* Mobile: apenas uma imagem, quadrada */
   .image-stage {
     display: flex;
     flex-direction: column;
@@ -285,7 +283,6 @@ nav {
     width: 100%;
   }
 
-  /* Esconde o segundo slot no mobile */
   #slot-bot {
     display: none;
   }
@@ -349,7 +346,7 @@ nav {
   
   .project-item {
     padding: 6px 28px 6px 40px;
-    margin-bottom: 0;
+    margin-bottom: -8px;
   }
 }
 </style>
@@ -422,13 +419,16 @@ function isMobileDevice() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CONFIGURAÇÃO DINÂMICA
+// CÁLCULO DA ALTURA DOS ITENS (baseado no conteúdo real)
 // ─────────────────────────────────────────────────────────────────────────────
-function getItemHeight() {
+function getItemHeightFromDOM() {
   if (isMobileDevice()) return 70;
   
-  // Desktop: 220 padrão, mas em 1920+ compensa o margin-bottom
-  if (window.innerWidth >= 1920) return 208; // 220 - 12
+  const firstItem = document.querySelector('.project-item');
+  if (firstItem) {
+    const height = firstItem.offsetHeight;
+    return height + 12;
+  }
   return 220;
 }
 
@@ -455,19 +455,13 @@ let animationId = null;
 function rebuildList() {
   if (!track) return;
   
-  // Limpa o track
   track.innerHTML = '';
   
-  // Pega a altura atual dos itens
-  const itemHeight = getItemHeight();
-  
-  // Recria os itens
   const COPIES = 7;
   for (let c = 0; c < COPIES; c++) {
     projects.forEach(p => {
       const el = document.createElement('div');
       el.className = 'project-item';
-      el.style.height = itemHeight + 'px';
       el.innerHTML = `<span class="label">${p.name}</span><span class="tag">${p.tag}</span>`;
       track.appendChild(el);
     });
@@ -475,112 +469,138 @@ function rebuildList() {
   
   allItems = Array.from(track.querySelectorAll('.project-item'));
   
-  // Reconfigura o scroll
-  const COPIES_ABOVE = Math.floor(COPIES / 2);
-  const INITIAL_SCROLL = COPIES_ABOVE * projects.length * itemHeight;
-  
-  scrollY = INITIAL_SCROLL;
-  targetY = INITIAL_SCROLL;
-  prevScrollY = INITIAL_SCROLL;
-  lastDir = 1;
-  isScrolling = false;
-  
-  if (idleTimer) clearTimeout(idleTimer);
-  if (enterTimer) clearTimeout(enterTimer);
-  
-  // Atualiza a configuração
-  CONFIG = {
-    ITEM_H: itemHeight,
-    COPIES: COPIES,
-    LERP: 0.038,
-    WHEEL_SPEED: 0.42,
-    TOUCH_SPEED: 1.1,
-    IDLE_MS: 220,
-    ENTER_DELAY_MS: 380,
-    EXIT: {
-      duration: 500,
-      easing: 'cubic-bezier(0.4, 0, 1, 1)',
-      translateX: -24,
-    },
-    ENTER: {
-      duration: 1100,
-      easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-      translateX: 65,
-      stagger: 130,
-    },
-  };
+  requestAnimationFrame(() => {
+    const itemHeight = getItemHeightFromDOM();
+    
+    const COPIES_ABOVE = Math.floor(COPIES / 2);
+    const INITIAL_SCROLL = COPIES_ABOVE * projects.length * itemHeight;
+    
+    scrollY = INITIAL_SCROLL;
+    targetY = INITIAL_SCROLL;
+    prevScrollY = INITIAL_SCROLL;
+    lastDir = 1;
+    isScrolling = false;
+    
+    if (idleTimer) clearTimeout(idleTimer);
+    if (enterTimer) clearTimeout(enterTimer);
+    
+    CONFIG = {
+      ITEM_H: itemHeight,
+      COPIES: COPIES,
+      LERP: 0.038,
+      WHEEL_SPEED: 0.42,
+      TOUCH_SPEED: 1.1,
+      IDLE_MS: 220,
+      ENTER_DELAY_MS: 380,
+      EXIT: {
+        duration: 300,
+        easing: 'cubic-bezier(0.4, 0, 1, 1)',
+        translateX: -24,
+      },
+      ENTER: {
+        duration: 400,
+        easing: 'cubic-bezier(0.2, 0.9, 0.4, 1.1)',
+        translateX: 65,
+        stagger: 80,
+      },
+    };
+    
+    if (animationId) cancelAnimationFrame(animationId);
+    loop();
+    setTimeout(() => showProject(0, 1), 100);
+  });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// FUNÇÕES DO CARROSSEL
+// FUNÇÕES DO CARROSSEL - SEM OPACIDADE, APENAS SLIDE DA ESQUERDA
 // ─────────────────────────────────────────────────────────────────────────────
 function clearSlots() {
   if (slotTop) slotTop.innerHTML = '';
   if (slotBot) slotBot.innerHTML = '';
 }
 
-function hideStage() {
-  if (!state.visible) return;
-  state.visible = false;
-  state.activeIdx = -1;
-  if (stage) {
-    stage.style.transition = 'opacity 0.3s ease';
-    stage.style.opacity = '0';
-  }
-  setTimeout(clearSlots, 320);
-}
-
 function showProject(idx, dir) {
   if (state.activeIdx === idx || !stage || !slotTop) return;
+  
+  const previousIdx = state.activeIdx;
   state.activeIdx = idx;
   state.visible = true;
-
-  clearSlots();
 
   const p = projects[idx];
   const xIn = dir >= 0 ? CONFIG.ENTER.translateX : -CONFIG.ENTER.translateX;
   const isMobile = isMobileDevice();
 
-  // No mobile, mostra apenas a primeira imagem (quadrada)
-  if (isMobile) {
-    const slide = document.createElement('div');
-    slide.className = 'image-slide';
-    slide.innerHTML = `<img src="${p.images[0]}" /><span class="img-label">${p.tag}</span>`;
-    slide.style.opacity = '0';
-    slide.style.transform = `translateX(${xIn}px)`;
-    slotTop.appendChild(slide);
-
-    slide.animate(
-      [
-        { transform: `translateX(${xIn}px)`, opacity: 0 },
-        { transform: 'translateX(0px)', opacity: 1 },
-      ],
-      { duration: CONFIG.ENTER.duration, easing: CONFIG.ENTER.easing, fill: 'forwards' }
-    );
-  } else {
-    // Desktop: mostra duas imagens
-    [slotTop, slotBot].forEach((slot, si) => {
-      if (!slot) return;
-      const slide = document.createElement('div');
-      slide.className = 'image-slide';
-      slide.innerHTML = `<img src="${p.images[si]}" /><span class="img-label">${p.tag} — 0${si + 1}</span>`;
-      slide.style.opacity = '0';
-      slide.style.transform = `translateX(${xIn}px)`;
-      slot.appendChild(slide);
-
-      const delay = si === 1 ? CONFIG.ENTER.stagger : 0;
+  // Animação de saída para as imagens anteriores (desliza para esquerda)
+  if (previousIdx !== -1 && !isMobile) {
+    const previousSlidesTop = slotTop.querySelectorAll('.image-slide');
+    const previousSlidesBot = slotBot.querySelectorAll('.image-slide');
+    
+    previousSlidesTop.forEach(slide => {
       slide.animate(
         [
-          { transform: `translateX(${xIn}px)`, opacity: 0 },
-          { transform: 'translateX(0px)', opacity: 1 },
+          { transform: 'translateX(0px)' },
+          { transform: `translateX(-${CONFIG.EXIT.translateX}px)` }
         ],
-        { duration: CONFIG.ENTER.duration, delay, easing: CONFIG.ENTER.easing, fill: 'forwards' }
+        { duration: CONFIG.EXIT.duration, easing: CONFIG.EXIT.easing, fill: 'forwards' }
       );
+      setTimeout(() => slide.remove(), CONFIG.EXIT.duration);
     });
+    
+    previousSlidesBot.forEach(slide => {
+      slide.animate(
+        [
+          { transform: 'translateX(0px)' },
+          { transform: `translateX(-${CONFIG.EXIT.translateX}px)` }
+        ],
+        { duration: CONFIG.EXIT.duration, easing: CONFIG.EXIT.easing, fill: 'forwards' }
+      );
+      setTimeout(() => slide.remove(), CONFIG.EXIT.duration);
+    });
+  } else {
+    clearSlots();
   }
 
-  stage.style.transition = 'opacity 0.2s ease';
-  stage.style.opacity = '1';
+  // Animação de entrada para as novas imagens (vem da direita)
+  setTimeout(() => {
+    if (isMobile) {
+      const slide = document.createElement('div');
+      slide.className = 'image-slide';
+      slide.innerHTML = `<img src="${p.images[0]}" /><span class="img-label">${p.tag}</span>`;
+      slide.style.transform = `translateX(${xIn}px)`;
+      slotTop.appendChild(slide);
+
+      slide.animate(
+        [
+          { transform: `translateX(${xIn}px)` },
+          { transform: 'translateX(0px)' }
+        ],
+        { duration: CONFIG.ENTER.duration, easing: CONFIG.ENTER.easing, fill: 'forwards' }
+      );
+    } else {
+      [slotTop, slotBot].forEach((slot, si) => {
+        if (!slot) return;
+        const slide = document.createElement('div');
+        slide.className = 'image-slide';
+        slide.innerHTML = `<img src="${p.images[si]}" /><span class="img-label">${p.tag} — 0${si + 1}</span>`;
+        slide.style.transform = `translateX(${xIn}px)`;
+        slot.appendChild(slide);
+
+        const delay = si === 1 ? CONFIG.ENTER.stagger : 0;
+        slide.animate(
+          [
+            { transform: `translateX(${xIn}px)` },
+            { transform: 'translateX(0px)' }
+          ],
+          { duration: CONFIG.ENTER.duration, delay, easing: CONFIG.ENTER.easing, fill: 'forwards' }
+        );
+      });
+    }
+  }, previousIdx !== -1 && !isMobile ? CONFIG.EXIT.duration : 0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+function hideStage() {
+  // Não faz nada - mantém as imagens visíveis
 }
 
 function getActiveIndex(y) {
@@ -602,7 +622,6 @@ function handleInput(delta) {
 
   if (!isScrolling) {
     isScrolling = true;
-    hideStage();
   }
 
   clearTimeout(idleTimer);
@@ -610,7 +629,10 @@ function handleInput(delta) {
 }
 
 function loop() {
-  if (!CONFIG.ITEM_H || !leftCol) return;
+  if (!CONFIG.ITEM_H || !leftCol) {
+    requestAnimationFrame(loop);
+    return;
+  }
   
   scrollY += (targetY - scrollY) * CONFIG.LERP;
 
@@ -648,18 +670,15 @@ function loop() {
 // FUNÇÃO PARA REINICIAR TUDO NO REDIMENSIONAMENTO
 // ─────────────────────────────────────────────────────────────────────────────
 function resetAndRebuild() {
-  // Cancela a animação atual
   if (animationId) {
     cancelAnimationFrame(animationId);
   }
   
-  // Remove event listeners antigos
   const root = document.getElementById('portfolio-root');
   if (root) {
     const newRoot = root.cloneNode(true);
     root.parentNode.replaceChild(newRoot, root);
     
-    // Re-adquire os elementos
     track = document.getElementById('project-track');
     stage = document.getElementById('image-stage');
     slotTop = document.getElementById('slot-top');
@@ -670,7 +689,6 @@ function resetAndRebuild() {
     if (track) {
       rebuildList();
       
-      // Re-adiciona os event listeners
       const newRootElement = document.getElementById('portfolio-root');
       if (newRootElement) {
         newRootElement.addEventListener('wheel', e => {
@@ -686,10 +704,6 @@ function resetAndRebuild() {
           touchY = e.touches[0].clientY;
         }, { passive: false });
       }
-      
-      // Reinicia o loop
-      loop();
-      setTimeout(() => showProject(0, 1), 350);
     }
   }
 }
@@ -698,10 +712,7 @@ function resetAndRebuild() {
 // INICIALIZAÇÃO
 // ─────────────────────────────────────────────────────────────────────────────
 rebuildList();
-loop();
-setTimeout(() => showProject(0, 1), 350);
 
-// Evento de redimensionamento sem recarregar a página
 let resizeTimer;
 window.addEventListener('resize', function() {
   clearTimeout(resizeTimer);
