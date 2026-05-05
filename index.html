@@ -32,7 +32,53 @@
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       height: 100%;
+      position: relative;
     }
+
+    /* ── Navegação superior - agora dentro do grid ocupando 8 colunas ── */
+    nav {
+      grid-column: 1 / 9;
+      position: absolute;
+      top: 26px;
+      left: 0;
+      right: 0;
+      padding-left: 52px;
+      padding-right: 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      pointer-events: none;
+    }
+    
+    .nav-logo {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #000;
+      pointer-events: auto;
+    }
+    
+    .nav-logo .logo-img {
+      height: 56px;
+      width: auto;
+      display: block;
+    }
+    
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #2E3EFC;
+      text-decoration: none;
+      pointer-events: all;
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover { color: #080F66; }
 
     /* ── Coluna esquerda: 8 de 12 colunas ── */
     .col-left {
@@ -138,37 +184,6 @@
       font-weight: 300;
     }
 
-    /* ── Navegação superior (ARIAL) ── */
-    nav {
-      position: absolute;
-      top: 26px; left: 52px; right: 26px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 10;
-      pointer-events: none;
-    }
-    .nav-logo {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #000;
-    }
-    .nav-links { display: flex; gap: 28px; }
-    .nav-links a {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 8.5px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #aaa;
-      text-decoration: none;
-      pointer-events: all;
-      transition: color 0.2s ease;
-    }
-    .nav-links a:hover { color: #000; }
-
     /* ── Hint de scroll (ARIAL) ── */
     .scroll-hint {
       position: absolute;
@@ -181,6 +196,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      z-index: 10;
     }
     .scroll-hint::before {
       content: '';
@@ -199,6 +215,7 @@
       font-weight: 300;
       letter-spacing: 0.14em;
       color: #ccc;
+      z-index: 10;
     }
     .counter span { color: #000; font-size: 12px; font-weight: 700; }
 
@@ -221,41 +238,154 @@
       .project-item .label { font-size: 75px; }
     }
 
+    /* ==================== MOBILE ==================== */
     @media (max-width: 768px) {
+      /* Esconde a coluna direita original */
       .col-right { display: none; }
-      .col-left { grid-column: 1 / 13; }
-      .project-item .label { font-size: 65px; }
-      .project-item { padding: 0 20px 0 0; }
-      nav { left: 32px; top: 20px; }
+      
+      /* Coluna esquerda ocupa tudo */
+      .col-left { 
+        grid-column: 1 / 13;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Container flex para imagem e labels em mobile */
+      .mobile-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        position: relative;
+      }
+      
+      /* Container da imagem em mobile (parte superior) */
+      .mobile-image-container {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        background: #f5f5f5;
+        min-height: 40%;
+      }
+      
+      .mobile-image-stage {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+      }
+      
+      .mobile-image-stage img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      .mobile-img-label {
+        position: absolute;
+        bottom: 14px;
+        left: 16px;
+        font-size: 8px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 300;
+        z-index: 2;
+      }
+      
+      /* Container dos labels em mobile (parte inferior) */
+      .mobile-labels-container {
+        height: auto;
+        overflow: hidden;
+        background: #fff;
+      }
+      
+      .project-track-mobile {
+        width: 100%;
+        will-change: transform;
+      }
+      
+      .project-item-mobile {
+        padding: 0 28px 0 32px;
+        user-select: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        opacity: 0.2;
+        transition: opacity 0.3s ease;
+      }
+      
+      .project-item-mobile.active { opacity: 1; }
+      
+      .project-item-mobile .label {
+        display: block;
+        font-family: 'Mango Grotesque', 'DM Sans', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 55px;
+        line-height: 0.9;
+        letter-spacing: -0.02em;
+        color: #000;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      
+      .project-item-mobile .tag {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 8px;
+        font-weight: 300;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #aaa;
+        white-space: nowrap;
+        flex-shrink: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        margin-left: 15px;
+      }
+      
+      .project-item-mobile.active .tag { opacity: 1; }
+      
+      nav { 
+        grid-column: 1 / 13; 
+        padding-left: 32px; 
+        top: 20px; 
+      }
+      
       .scroll-hint { left: 32px; bottom: 20px; }
       .counter { right: 20px; bottom: 20px; }
+      .nav-logo .logo-img { height: 56px; }
     }
 
     @media (max-width: 600px) {
-      .project-item .label { font-size: 52px; }
+      .project-item-mobile .label { font-size: 45px; }
     }
 
     @media (max-width: 480px) {
-      .project-item .label { font-size: 42px; }
-      .project-item .tag { font-size: 8px; margin-left: 15px; }
+      .project-item-mobile .label { font-size: 38px; }
+      .project-item-mobile .tag { font-size: 7px; margin-left: 12px; }
     }
 
     @media (max-width: 400px) {
-      .project-item .label { font-size: 36px; }
+      .project-item-mobile .label { font-size: 32px; }
     }
   </style>
 </head>
 <body>
 <div id="portfolio-root">
-  <nav>
-    <div class="nav-logo">Andressa Ariane</div>
-    <div class="nav-links">
-      <a href="#">Sobre mim</a>
-      <a href="#">Contato</a>
-    </div>
-  </nav>
-
   <div class="grid">
+    <nav>
+      <div class="nav-logo">
+        <img src="https://raw.githubusercontent.com/Lovenzomachado/andressaariane/main/logo.svg" alt="Andressa Ariane" class="logo-img">
+      </div>
+      <div class="nav-links">
+        <a href="#">Sobre mim</a>
+        <a href="#">Contato</a>
+      </div>
+    </nav>
+    
+    <!-- Versão Desktop -->
     <div class="col-left" id="left-col">
       <div class="project-track" id="project-track"></div>
     </div>
@@ -263,6 +393,18 @@
       <div class="image-stage" id="image-stage">
         <div class="image-slot" id="slot-top"></div>
         <div class="image-slot" id="slot-bot"></div>
+      </div>
+    </div>
+    
+    <!-- Versão Mobile (inicialmente vazia, preenchida via JS) -->
+    <div class="col-left mobile-only" id="mobile-col" style="display: none;">
+      <div class="mobile-container">
+        <div class="mobile-image-container">
+          <div class="mobile-image-stage" id="mobile-image-stage"></div>
+        </div>
+        <div class="mobile-labels-container">
+          <div class="project-track-mobile" id="project-track-mobile"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -316,6 +458,13 @@ function getItemHeight() {
   return Math.ceil(lineHeight + 30);
 }
 
+function getMobileItemHeight() {
+  const label = document.querySelector('.project-item-mobile .label');
+  if (!label) return 70;
+  const fontSize = parseFloat(getComputedStyle(label).fontSize);
+  return Math.ceil(fontSize * 0.9 + 20);
+}
+
 const CONFIG = {
   ITEM_H:         170,
   COPIES:         7,
@@ -331,10 +480,10 @@ const CONFIG = {
     translateX: -24,
   },
   ENTER: {
-    duration:   1100,
-    easing:     'cubic-bezier(0.16, 1, 0.3, 1)',
-    translateX: 65,
-    stagger:    130,
+    duration:   900,
+    easing:     'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    translateX: 400,
+    stagger:    120,
   },
 };
 
@@ -349,10 +498,35 @@ const slotBot    = document.getElementById('slot-bot');
 const counterNum = document.getElementById('counter-num');
 const leftCol    = document.getElementById('left-col');
 
+// Elementos Mobile
+const mobileCol = document.getElementById('mobile-col');
+const mobileImageStage = document.getElementById('mobile-image-stage');
+const mobileTrack = document.getElementById('project-track-mobile');
+
 const COPIES_ABOVE = Math.floor(CONFIG.COPIES / 2);
 
 // ─────────────────────────────────────────────────────────────────────────────
-// GERA A LISTA REPETIDA
+// DETECTA MOBILE
+// ─────────────────────────────────────────────────────────────────────────────
+let isMobile = window.innerWidth <= 768;
+
+function checkMobile() {
+  isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    document.querySelector('.col-right').style.display = 'none';
+    leftCol.style.display = 'none';
+    mobileCol.style.display = 'block';
+    mobileCol.style.gridColumn = '1 / 13';
+    initMobile();
+  } else {
+    document.querySelector('.col-right').style.display = 'block';
+    leftCol.style.display = 'block';
+    mobileCol.style.display = 'none';
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GERA A LISTA REPETIDA (DESKTOP)
 // ─────────────────────────────────────────────────────────────────────────────
 for (let c = 0; c < CONFIG.COPIES; c++) {
   projects.forEach(p => {
@@ -374,7 +548,128 @@ setTimeout(() => {
 }, 100);
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SCROLL
+// GERA MOBILE
+// ─────────────────────────────────────────────────────────────────────────────
+let mobileItems = [];
+let mobileScrollY = 0;
+let mobileTargetY = 0;
+let mobilePrevScrollY = 0;
+let mobileLastDir = 1;
+let mobileIsScrolling = false;
+let mobileIdleTimer = null;
+let mobileEnterTimer = null;
+let mobileItemHeight = 70;
+
+function initMobile() {
+  if (!mobileTrack) return;
+  mobileTrack.innerHTML = '';
+  
+  mobileItemHeight = getMobileItemHeight();
+  
+  for (let c = 0; c < CONFIG.COPIES; c++) {
+    projects.forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'project-item-mobile';
+      el.style.height = mobileItemHeight + 'px';
+      el.innerHTML = `<span class="label">${p.name}</span><span class="tag">${p.tag}</span>`;
+      mobileTrack.appendChild(el);
+    });
+  }
+  mobileItems = Array.from(mobileTrack.querySelectorAll('.project-item-mobile'));
+}
+
+function showMobileImage(idx) {
+  if (!mobileImageStage) return;
+  
+  const p = projects[idx];
+  mobileImageStage.innerHTML = '';
+  mobileImageStage.style.opacity = '0';
+  
+  const slide = document.createElement('div');
+  slide.style.position = 'absolute';
+  slide.style.inset = '0';
+  slide.innerHTML = `<img src="${p.images[0]}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" /><span class="mobile-img-label">${p.tag}</span>`;
+  slide.style.transform = `translateX(${CONFIG.ENTER.translateX}px)`;
+  mobileImageStage.appendChild(slide);
+  
+  mobileImageStage.style.opacity = '1';
+  
+  slide.animate(
+    [
+      { transform: `translateX(${CONFIG.ENTER.translateX}px)` },
+      { transform: 'translateX(0px)' },
+    ],
+    { duration: CONFIG.ENTER.duration, easing: CONFIG.ENTER.easing, fill: 'forwards' }
+  );
+}
+
+function hideMobileStage() {
+  if (mobileImageStage) {
+    mobileImageStage.style.opacity = '0';
+  }
+}
+
+function onMobileIdle() {
+  mobileIsScrolling = false;
+  const idx = getMobileActiveIndex(mobileScrollY);
+  clearTimeout(mobileEnterTimer);
+  mobileEnterTimer = setTimeout(() => showMobileImage(idx), CONFIG.ENTER_DELAY_MS);
+}
+
+function handleMobileInput(delta) {
+  mobileTargetY += delta;
+  clearTimeout(mobileEnterTimer);
+  
+  if (!mobileIsScrolling) {
+    mobileIsScrolling = true;
+    hideMobileStage();
+  }
+  
+  clearTimeout(mobileIdleTimer);
+  mobileIdleTimer = setTimeout(onMobileIdle, CONFIG.IDLE_MS);
+}
+
+function getMobileActiveIndex(y) {
+  const wrap = total * mobileItemHeight;
+  return Math.round(((y % wrap) + wrap) % wrap / mobileItemHeight) % total;
+}
+
+function mobileLoop() {
+  if (!isMobile) return;
+  
+  mobileScrollY += (mobileTargetY - mobileScrollY) * CONFIG.LERP;
+  
+  const wrap = total * mobileItemHeight;
+  const wrapLow = COPIES_ABOVE * total * mobileItemHeight - wrap;
+  const wrapHigh = COPIES_ABOVE * total * mobileItemHeight + wrap * (CONFIG.COPIES - COPIES_ABOVE - 1);
+  
+  if (mobileScrollY > wrapHigh) { mobileScrollY -= wrap; mobileTargetY -= wrap; }
+  if (mobileScrollY < wrapLow) { mobileScrollY += wrap; mobileTargetY += wrap; }
+  
+  const container = document.querySelector('.mobile-labels-container');
+  if (container) {
+    const containerH = container.clientHeight;
+    const center = containerH / 2 - mobileItemHeight / 2;
+    if (mobileTrack) {
+      mobileTrack.style.transform = `translateY(${Math.round(-mobileScrollY + center)}px)`;
+    }
+  }
+  
+  const vel = mobileScrollY - mobilePrevScrollY;
+  if (Math.abs(vel) > 0.01) mobileLastDir = vel > 0 ? 1 : -1;
+  mobilePrevScrollY = mobileScrollY;
+  
+  const ai = getMobileActiveIndex(mobileScrollY);
+  if (counterNum) counterNum.textContent = String(ai + 1).padStart(2, '0');
+  if (mobileItems.length) {
+    mobileItems.forEach((el, gi) => el.classList.toggle('active', (gi % total) === ai));
+  }
+  
+  requestAnimationFrame(mobileLoop);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCROLL DESKTOP
 // ─────────────────────────────────────────────────────────────────────────────
 let INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H;
 let scrollY     = INITIAL_SCROLL;
@@ -385,9 +680,6 @@ let isScrolling = false;
 let idleTimer   = null;
 let enterTimer  = null;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ESTADO DAS IMAGENS
-// ─────────────────────────────────────────────────────────────────────────────
 const state = { visible: false, activeIdx: -1 };
 
 function clearSlots() {
@@ -412,27 +704,22 @@ function showProject(idx, dir) {
   clearSlots();
 
   const p   = projects[idx];
-  const xIn = dir >= 0 ? CONFIG.ENTER.translateX : -CONFIG.ENTER.translateX;
-
-  // ORDEM TROCADA: slot-bot (embaixo) aparece primeiro, depois slot-top (em cima)
-  // Isso cria um efeito de cascata de baixo para cima
+  const xStart = CONFIG.ENTER.translateX;
+  
   const slots = [slotBot, slotTop];
   
   slots.forEach((slot, si) => {
     const slide = document.createElement('div');
     slide.className = 'image-slide';
-    // Usa a imagem correspondente
-    const imgUrl = p.images[0]; // ambas imagens são iguais por enquanto
+    const imgUrl = p.images[0];
     slide.innerHTML = `<img src="${imgUrl}" alt="${p.name} - ${p.tag}" loading="lazy" /><span class="img-label">${p.tag} — 0${si + 1}</span>`;
-    slide.style.transform = `translateX(${xIn}px)`;
-    // SEM OPACIDADE - apenas movimento
+    slide.style.transform = `translateX(${xStart}px)`;
     slot.appendChild(slide);
 
-    // Delay maior para o primeiro slot (agora slot-bot) e menor para o segundo
     const delay = si === 0 ? 0 : CONFIG.ENTER.stagger;
     slide.animate(
       [
-        { transform: `translateX(${xIn}px)` },
+        { transform: `translateX(${xStart}px)` },
         { transform: 'translateX(0px)' },
       ],
       { duration: CONFIG.ENTER.duration, delay, easing: CONFIG.ENTER.easing, fill: 'forwards' }
@@ -443,9 +730,6 @@ function showProject(idx, dir) {
   stage.style.opacity    = '1';
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ÍNDICE ATIVO
-// ─────────────────────────────────────────────────────────────────────────────
 function getActiveIndex(y) {
   const wrap = total * CONFIG.ITEM_H;
   return Math.round(((y % wrap) + wrap) % wrap / CONFIG.ITEM_H) % total;
@@ -459,6 +743,11 @@ function onIdle() {
 }
 
 function handleInput(delta) {
+  if (isMobile) {
+    handleMobileInput(delta);
+    return;
+  }
+  
   targetY += delta;
   clearTimeout(enterTimer);
 
@@ -471,10 +760,12 @@ function handleInput(delta) {
   idleTimer = setTimeout(onIdle, CONFIG.IDLE_MS);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// LOOP
-// ─────────────────────────────────────────────────────────────────────────────
 function loop() {
+  if (isMobile) {
+    requestAnimationFrame(loop);
+    return;
+  }
+  
   scrollY += (targetY - scrollY) * CONFIG.LERP;
 
   const wrap     = total * CONFIG.ITEM_H;
@@ -506,30 +797,49 @@ const root = document.getElementById('portfolio-root');
 
 root.addEventListener('wheel', e => {
   e.preventDefault();
-  handleInput(e.deltaY * CONFIG.WHEEL_SPEED);
+  if (isMobile) {
+    handleMobileInput(e.deltaY * CONFIG.WHEEL_SPEED);
+  } else {
+    handleInput(e.deltaY * CONFIG.WHEEL_SPEED);
+  }
 }, { passive: false });
 
 let touchY = null;
 root.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
 root.addEventListener('touchmove', e => {
   e.preventDefault();
-  handleInput((touchY - e.touches[0].clientY) * CONFIG.TOUCH_SPEED);
+  const delta = (touchY - e.touches[0].clientY) * CONFIG.TOUCH_SPEED;
+  if (isMobile) {
+    handleMobileInput(delta);
+  } else {
+    handleInput(delta);
+  }
   touchY = e.touches[0].clientY;
 }, { passive: false });
 
-// Recalcula altura no resize
 window.addEventListener('resize', () => {
+  checkMobile();
   setTimeout(() => {
-    const newHeight = getItemHeight();
-    if (Math.abs(CONFIG.ITEM_H - newHeight) > 2) {
-      CONFIG.ITEM_H = newHeight;
-      allItems.forEach(item => {
-        item.style.height = CONFIG.ITEM_H + 'px';
+    if (!isMobile) {
+      const newHeight = getItemHeight();
+      if (Math.abs(CONFIG.ITEM_H - newHeight) > 2) {
+        CONFIG.ITEM_H = newHeight;
+        allItems.forEach(item => {
+          item.style.height = CONFIG.ITEM_H + 'px';
+        });
+        INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H;
+        scrollY = INITIAL_SCROLL;
+        targetY = INITIAL_SCROLL;
+        prevScrollY = INITIAL_SCROLL;
+      }
+    } else {
+      mobileItemHeight = getMobileItemHeight();
+      mobileItems.forEach(item => {
+        item.style.height = mobileItemHeight + 'px';
       });
-      INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H;
-      scrollY = INITIAL_SCROLL;
-      targetY = INITIAL_SCROLL;
-      prevScrollY = INITIAL_SCROLL;
+      mobileScrollY = COPIES_ABOVE * total * mobileItemHeight;
+      mobileTargetY = mobileScrollY;
+      mobilePrevScrollY = mobileScrollY;
     }
   }, 100);
 });
@@ -537,8 +847,18 @@ window.addEventListener('resize', () => {
 // ─────────────────────────────────────────────────────────────────────────────
 // INIT
 // ─────────────────────────────────────────────────────────────────────────────
+checkMobile();
+initMobile();
 loop();
-setTimeout(() => showProject(0, 1), 350);
+mobileLoop();
+
+setTimeout(() => {
+  if (isMobile) {
+    showMobileImage(0);
+  } else {
+    showProject(0, 1);
+  }
+}, 350);
 </script>
 </body>
 </html>
