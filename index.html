@@ -1,201 +1,251 @@
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap');
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Andressa Ariane | Portfolio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap');
 
-/* ── FONTE MANGO GROTESQUE do GitHub ── */
-@font-face {
-  font-family: 'Mango Grotesque';
-  src: url('https://raw.githubusercontent.com/Lovenzomachado/andressaariane/main/Mango%20Grotesque.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
+    /* ── FONTE MANGO GROTESQUE do GitHub (Lovenzomachado/andressaariane) ── */
+    @font-face {
+      font-family: 'Mango Grotesque';
+      src: url('https://raw.githubusercontent.com/Lovenzomachado/andressaariane/main/Mango%20Grotesque.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
 
-#portfolio-root {
-  width: 100%;
-  height: 100vh;
-  min-height: 520px;
-  overflow: hidden;
-  position: relative;
-  background: #fff;
-  font-family: 'DM Sans', sans-serif;
-}
+    #portfolio-root {
+      width: 100%;
+      height: 100vh;
+      min-height: 520px;
+      overflow: hidden;
+      position: relative;
+      background: #fff;
+      font-family: 'DM Sans', sans-serif;
+    }
 
-/* ── Grid principal 12 colunas ── */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  height: 100%;
-}
+    /* ── Grid principal 12 colunas ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      height: 100%;
+    }
 
-/* ── Coluna esquerda: 8 de 12 colunas ── */
-.col-left {
-  grid-column: 1 / 9;
-  position: relative;
-  overflow: hidden;
-}
+    /* ── Coluna esquerda: 8 de 12 colunas ── */
+    .col-left {
+      grid-column: 1 / 9;
+      position: relative;
+      overflow: hidden;
+    }
 
-/* ── Coluna direita: 4 de 12 colunas ── */
-.col-right {
-  grid-column: 9 / 13;
-  position: relative;
-  overflow: hidden;
-}
+    /* ── Coluna direita: 4 de 12 colunas ── */
+    .col-right {
+      grid-column: 9 / 13;
+      position: relative;
+      overflow: hidden;
+    }
 
-/* ── Track que se move verticalmente com o scroll ── */
-.project-track {
-  position: absolute;
-  width: 100%;
-  will-change: transform;
-  /* top: 0 — o offset inicial é calculado em JS com base no número de cópias acima */
-}
+    /* ── Track que se move verticalmente com o scroll ── */
+    .project-track {
+      position: absolute;
+      width: 100%;
+      will-change: transform;
+    }
 
-/* ── Item individual da lista ──
-   justify-content: space-between empurra título para esquerda e tag para direita */
-.project-item {
-  padding: 0 28px 0 52px; /* padding-right menor para tag chegar perto da borda */
-  user-select: none;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  opacity: 0.2;
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.project-item.active { opacity: 1; }
+    /* ── Item individual da lista ── */
+    .project-item {
+      padding: 0 28px 0 0;
+      user-select: none;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      opacity: 0.2;
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .project-item.active { opacity: 1; }
 
-/* ── Nome do projeto com MANGO GROTESQUE ── */
-.project-item .label {
-  display: block;
-  font-family: 'Mango Grotesque', 'DM Sans', sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: clamp(32px, 4.6vw, 62px); /* responsivo: mín 32px, ideal 4.6vw, máx 62px */
-  line-height: 1;
-  letter-spacing: -0.01em;
-  color: #000;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
+    /* ── Nome do projeto com MANGO GROTESQUE ── */
+    .project-item .label {
+      display: block;
+      font-family: 'Mango Grotesque', 'DM Sans', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 168px;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      color: #000;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
 
-/* ── Tag descritiva — fica na borda direita, próxima às imagens (ARIAL) ── */
-.project-item .tag {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 8px;               /* tamanho da tag */
-  font-weight: 300;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #aaa;
-  white-space: nowrap;
-  flex-shrink: 0;
-  opacity: 0;
-  transition: opacity 0.8s ease 0.15s;
-}
-.project-item.active .tag { opacity: 1; }
+    /* ── Tag descritiva — ARIAL ── */
+    .project-item .tag {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #aaa;
+      white-space: nowrap;
+      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease 0.15s;
+      margin-left: 30px;
+    }
+    .project-item.active .tag { opacity: 1; }
 
-/* ── Stage das imagens ── */
-.image-stage {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-}
+    /* ── Stage das imagens ── */
+    .image-stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+    }
 
-/* ── Cada slot ocupa metade da altura ── */
-.image-slot {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-}
+    /* ── Cada slot ocupa metade da altura ── */
+    .image-slot {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
 
-.image-slide {
-  position: absolute;
-  inset: 0;
-}
-.image-slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+    .image-slide {
+      position: absolute;
+      inset: 0;
+    }
+    .image-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
-/* ── Label sobreposto na imagem (ARIAL) ── */
-.img-label {
-  position: absolute;
-  bottom: 14px;
-  left: 16px;
-  font-size: 8px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 300;
-}
+    /* ── Label sobreposto na imagem (ARIAL) ── */
+    .img-label {
+      position: absolute;
+      bottom: 14px;
+      left: 16px;
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 300;
+    }
 
-/* ── Navegação superior ── */
-nav {
-  position: absolute;
-  top: 26px; left: 52px; right: 26px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 10;
-  pointer-events: none;
-}
-.nav-logo {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #000;
-}
-.nav-links { display: flex; gap: 28px; }
-.nav-links a {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 8.5px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #aaa;
-  text-decoration: none;
-  pointer-events: all;
-}
+    /* ── Navegação superior (ARIAL) ── */
+    nav {
+      position: absolute;
+      top: 26px; left: 52px; right: 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .nav-logo {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #000;
+    }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #aaa;
+      text-decoration: none;
+      pointer-events: all;
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover { color: #000; }
 
-/* ── Hint de scroll ── */
-.scroll-hint {
-  position: absolute;
-  bottom: 26px; left: 52px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 8.5px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #ccc;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.scroll-hint::before {
-  content: '';
-  display: block;
-  width: 20px;
-  height: 0.5px;
-  background: #ccc;
-}
+    /* ── Hint de scroll (ARIAL) ── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 26px; left: 52px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .scroll-hint::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 0.5px;
+      background: #ccc;
+    }
 
-/* ── Contador ── */
-.counter {
-  position: absolute;
-  bottom: 26px; right: 26px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 9px;
-  font-weight: 300;
-  letter-spacing: 0.14em;
-  color: #ccc;
-}
-.counter span { color: #000; font-size: 12px; font-weight: 700; }
-</style>
+    /* ── Contador (ARIAL) ── */
+    .counter {
+      position: absolute;
+      bottom: 26px; right: 26px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 9px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      color: #ccc;
+    }
+    .counter span { color: #000; font-size: 12px; font-weight: 700; }
 
+    /* Responsive adjustments */
+    @media (max-width: 1400px) {
+      .project-item .label { font-size: 148px; }
+      .project-item { padding: 0 24px 0 0; }
+    }
+
+    @media (max-width: 1200px) {
+      .project-item .label { font-size: 120px; }
+    }
+
+    @media (max-width: 1000px) {
+      .project-item .label { font-size: 90px; }
+      .project-item { padding: 0 20px 0 0; }
+    }
+
+    @media (max-width: 800px) {
+      .project-item .label { font-size: 75px; }
+    }
+
+    @media (max-width: 768px) {
+      .col-right { display: none; }
+      .col-left { grid-column: 1 / 13; }
+      .project-item .label { font-size: 65px; }
+      .project-item { padding: 0 20px 0 0; }
+      nav { left: 32px; top: 20px; }
+      .scroll-hint { left: 32px; bottom: 20px; }
+      .counter { right: 20px; bottom: 20px; }
+    }
+
+    @media (max-width: 600px) {
+      .project-item .label { font-size: 52px; }
+    }
+
+    @media (max-width: 480px) {
+      .project-item .label { font-size: 42px; }
+      .project-item .tag { font-size: 8px; margin-left: 15px; }
+    }
+
+    @media (max-width: 400px) {
+      .project-item .label { font-size: 36px; }
+    }
+  </style>
+</head>
+<body>
 <div id="portfolio-root">
   <nav>
     <div class="nav-logo">Andressa Ariane</div>
@@ -218,50 +268,57 @@ nav {
   </div>
 
   <div class="scroll-hint">Scroll para navegar</div>
-  <div class="counter"><span id="counter-num">01</span> / 07</div>
+  <div class="counter"><span id="counter-num">01</span> / 06</div>
 </div>
 
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
-// PROJETOS
+// PROJETOS - IMAGENS DO REPOSITÓRIO
 // ─────────────────────────────────────────────────────────────────────────────
+const IMG_BASE_URL = 'https://raw.githubusercontent.com/Lovenzomachado/andressaariane/main/projects/';
+
 const projects = [
   { name: "Ipanema Pluma",   tag: "Identidade Visual", images: [
-    "https://images.unsplash.com/photo-1523381294911-8d3cead13475?w=500&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=500&h=400&fit=crop"
+    `${IMG_BASE_URL}ipanema-pluma.avif`,
+    `${IMG_BASE_URL}ipanema-pluma.avif`
   ]},
   { name: "Quinto Andar",    tag: "Branding Digital", images: [
-    "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=500&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=500&h=400&fit=crop"
+    `${IMG_BASE_URL}quintoandar.avif`,
+    `${IMG_BASE_URL}quintoandar.avif`
   ]},
   { name: "Élev Experience", tag: "Skincare Print", images: [
-    "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&h=400&fit=crop"
+    `${IMG_BASE_URL}elev.avif`,
+    `${IMG_BASE_URL}elev.avif`
   ]},
   { name: "Unimed VTRP",     tag: "Campanha", images: [
-    "https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=500&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&h=400&fit=crop"
+    `${IMG_BASE_URL}unimed.avif`,
+    `${IMG_BASE_URL}unimed.avif`
   ]},
   { name: "Kero Fazê",       tag: "Social Media", images: [
-    "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=500&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=500&h=400&fit=crop"
+    `${IMG_BASE_URL}kerofaze.avif`,
+    `${IMG_BASE_URL}kerofaze.avif`
   ]},
   { name: "Museu da PUC",    tag: "Editorial", images: [
-    "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=500&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=500&h=400&fit=crop"
-  ]},
-  { name: "Natura &Co",      tag: "Packaging", images: [
-    "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=500&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1587556930799-8dca6fad6d43?w=500&h=400&fit=crop"
+    `${IMG_BASE_URL}puc.avif`,
+    `${IMG_BASE_URL}puc.avif`
   ]}
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONFIGURAÇÃO
 // ─────────────────────────────────────────────────────────────────────────────
+function getItemHeight() {
+  const label = document.querySelector('.project-item .label');
+  if (!label) return 170;
+  
+  const fontSize = parseFloat(getComputedStyle(label).fontSize);
+  const lineHeight = fontSize * 0.9;
+  return Math.ceil(lineHeight + 30);
+}
+
 const CONFIG = {
-  ITEM_H:         88,
-  COPIES:         7,     // cópias totais — número ímpar para ter cópias simétricas acima e abaixo
+  ITEM_H:         170,
+  COPIES:         7,
   LERP:           0.038,
   WHEEL_SPEED:    0.42,
   TOUCH_SPEED:    1.1,
@@ -292,11 +349,10 @@ const slotBot    = document.getElementById('slot-bot');
 const counterNum = document.getElementById('counter-num');
 const leftCol    = document.getElementById('left-col');
 
+const COPIES_ABOVE = Math.floor(CONFIG.COPIES / 2);
+
 // ─────────────────────────────────────────────────────────────────────────────
 // GERA A LISTA REPETIDA
-// Número de cópias acima do centro = Math.floor(COPIES / 2)
-// Isso garante que ao iniciar (scrollY = 0, item 0 no centro),
-// já existam itens preenchendo para cima na tela
 // ─────────────────────────────────────────────────────────────────────────────
 for (let c = 0; c < CONFIG.COPIES; c++) {
   projects.forEach(p => {
@@ -309,14 +365,18 @@ for (let c = 0; c < CONFIG.COPIES; c++) {
 }
 const allItems = Array.from(track.querySelectorAll('.project-item'));
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SCROLL — o scrollY começa em um offset que representa "cópias acima"
-// Ex: com 3 cópias acima, scrollY inicial = 3 * total * ITEM_H
-// Assim o item 0 aparece no centro e a lista já está preenchida acima
-// ─────────────────────────────────────────────────────────────────────────────
-const COPIES_ABOVE = Math.floor(CONFIG.COPIES / 2); // cópias acima do ponto de partida
-const INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H; // scroll inicial que centraliza item 0
+// Atualiza altura baseada no CSS
+setTimeout(() => {
+  CONFIG.ITEM_H = getItemHeight();
+  allItems.forEach(item => {
+    item.style.height = CONFIG.ITEM_H + 'px';
+  });
+}, 100);
 
+// ─────────────────────────────────────────────────────────────────────────────
+// SCROLL
+// ─────────────────────────────────────────────────────────────────────────────
+let INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H;
 let scrollY     = INITIAL_SCROLL;
 let targetY     = INITIAL_SCROLL;
 let prevScrollY = INITIAL_SCROLL;
@@ -354,19 +414,26 @@ function showProject(idx, dir) {
   const p   = projects[idx];
   const xIn = dir >= 0 ? CONFIG.ENTER.translateX : -CONFIG.ENTER.translateX;
 
-  [slotTop, slotBot].forEach((slot, si) => {
+  // ORDEM TROCADA: slot-bot (embaixo) aparece primeiro, depois slot-top (em cima)
+  // Isso cria um efeito de cascata de baixo para cima
+  const slots = [slotBot, slotTop];
+  
+  slots.forEach((slot, si) => {
     const slide = document.createElement('div');
     slide.className = 'image-slide';
-    slide.innerHTML = `<img src="${p.images[si]}" /><span class="img-label">${p.tag} — 0${si + 1}</span>`;
-    slide.style.opacity   = '0';
+    // Usa a imagem correspondente
+    const imgUrl = p.images[0]; // ambas imagens são iguais por enquanto
+    slide.innerHTML = `<img src="${imgUrl}" alt="${p.name} - ${p.tag}" loading="lazy" /><span class="img-label">${p.tag} — 0${si + 1}</span>`;
     slide.style.transform = `translateX(${xIn}px)`;
+    // SEM OPACIDADE - apenas movimento
     slot.appendChild(slide);
 
-    const delay = si === 1 ? CONFIG.ENTER.stagger : 0;
+    // Delay maior para o primeiro slot (agora slot-bot) e menor para o segundo
+    const delay = si === 0 ? 0 : CONFIG.ENTER.stagger;
     slide.animate(
       [
-        { transform: `translateX(${xIn}px)`, opacity: 0 },
-        { transform: 'translateX(0px)',       opacity: 1 },
+        { transform: `translateX(${xIn}px)` },
+        { transform: 'translateX(0px)' },
       ],
       { duration: CONFIG.ENTER.duration, delay, easing: CONFIG.ENTER.easing, fill: 'forwards' }
     );
@@ -377,8 +444,7 @@ function showProject(idx, dir) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ÍNDICE ATIVO — baseado no scrollY absoluto
-// O wrap usa a lista completa (total * ITEM_H) para o loop infinito
+// ÍNDICE ATIVO
 // ─────────────────────────────────────────────────────────────────────────────
 function getActiveIndex(y) {
   const wrap = total * CONFIG.ITEM_H;
@@ -411,15 +477,13 @@ function handleInput(delta) {
 function loop() {
   scrollY += (targetY - scrollY) * CONFIG.LERP;
 
-  // Wrapping: mantém scrollY dentro de uma faixa segura para o loop funcionar
   const wrap     = total * CONFIG.ITEM_H;
-  const wrapLow  = INITIAL_SCROLL - wrap;       // limite inferior antes de resetar
-  const wrapHigh = INITIAL_SCROLL + wrap * (CONFIG.COPIES - COPIES_ABOVE - 1); // limite superior
+  const wrapLow  = INITIAL_SCROLL - wrap;
+  const wrapHigh = INITIAL_SCROLL + wrap * (CONFIG.COPIES - COPIES_ABOVE - 1);
 
   if (scrollY > wrapHigh) { scrollY -= wrap; targetY -= wrap; }
   if (scrollY < wrapLow)  { scrollY += wrap; targetY += wrap; }
 
-  // Centraliza o item ativo verticalmente na coluna esquerda
   const colH   = leftCol.clientHeight;
   const center = colH / 2 - CONFIG.ITEM_H / 2;
   track.style.transform = `translateY(${Math.round(-scrollY + center)}px)`;
@@ -453,9 +517,28 @@ root.addEventListener('touchmove', e => {
   touchY = e.touches[0].clientY;
 }, { passive: false });
 
+// Recalcula altura no resize
+window.addEventListener('resize', () => {
+  setTimeout(() => {
+    const newHeight = getItemHeight();
+    if (Math.abs(CONFIG.ITEM_H - newHeight) > 2) {
+      CONFIG.ITEM_H = newHeight;
+      allItems.forEach(item => {
+        item.style.height = CONFIG.ITEM_H + 'px';
+      });
+      INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H;
+      scrollY = INITIAL_SCROLL;
+      targetY = INITIAL_SCROLL;
+      prevScrollY = INITIAL_SCROLL;
+    }
+  }, 100);
+});
+
 // ─────────────────────────────────────────────────────────────────────────────
 // INIT
 // ─────────────────────────────────────────────────────────────────────────────
 loop();
 setTimeout(() => showProject(0, 1), 350);
 </script>
+</body>
+</html>
