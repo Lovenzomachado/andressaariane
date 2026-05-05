@@ -2,10 +2,10 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap');
 
-/* ── FONTE MANGO GROTESQUE do GitHub (Lovenzomachado/andressaariane) ── */
+/* ── FONTE MANGO GROTESQUE do GitHub ── */
 @font-face {
   font-family: 'Mango Grotesque';
-  src: url('https://raw.githubusercontent.com/Lovenzomachado/andressaariane/main/Mango%20Grotesque.woff2') format('woff2');
+  src: url('https://raw.githubusercontent.com/seu-usuario/seu-repo/main/Mango%20Grotesque.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -40,8 +40,6 @@
   grid-column: 9 / 13;
   position: relative;
   overflow: hidden;
-  border-left: 0.5px solid #e8e8e8;
-  background: #f8f8f8;
 }
 
 /* ── Track que se move verticalmente com o scroll ── */
@@ -59,20 +57,20 @@
   user-select: none;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   opacity: 0.2;
   transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .project-item.active { opacity: 1; }
 
-/* ── Nome do projeto com MANGO GROTESQUE - TAMANHO 200px ── */
+/* ── Nome do projeto com MANGO GROTESQUE ── */
 .project-item .label {
   display: block;
   font-family: 'Mango Grotesque', 'DM Sans', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  font-size: 200px; /* Tamanho fixo de 200px */
+  font-size: clamp(32px, 4.6vw, 62px); /* responsivo: mín 32px, ideal 4.6vw, máx 62px */
   line-height: 1;
   letter-spacing: -0.01em;
   color: #000;
@@ -83,7 +81,7 @@
 /* ── Tag descritiva — fica na borda direita, próxima às imagens (ARIAL) ── */
 .project-item .tag {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 9px;               /* tamanho da tag */
+  font-size: 8px;               /* tamanho da tag */
   font-weight: 300;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -92,7 +90,6 @@
   flex-shrink: 0;
   opacity: 0;
   transition: opacity 0.8s ease 0.15s;
-  padding-bottom: 7px;          /* alinha visualmente com a baseline do título */
 }
 .project-item.active .tag { opacity: 1; }
 
@@ -136,7 +133,7 @@
   font-weight: 300;
 }
 
-/* ── Navegação superior (ARIAL) ── */
+/* ── Navegação superior ── */
 nav {
   position: absolute;
   top: 26px; left: 52px; right: 26px;
@@ -165,7 +162,7 @@ nav {
   pointer-events: all;
 }
 
-/* ── Hint de scroll (ARIAL) ── */
+/* ── Hint de scroll ── */
 .scroll-hint {
   position: absolute;
   bottom: 26px; left: 52px;
@@ -186,7 +183,7 @@ nav {
   background: #ccc;
 }
 
-/* ── Contador (ARIAL) ── */
+/* ── Contador ── */
 .counter {
   position: absolute;
   bottom: 26px; right: 26px;
@@ -263,7 +260,7 @@ const projects = [
 // CONFIGURAÇÃO
 // ─────────────────────────────────────────────────────────────────────────────
 const CONFIG = {
-  ITEM_H:         220,  // Aumentado para acomodar fonte de 200px
+  ITEM_H:         88,
   COPIES:         7,     // cópias totais — número ímpar para ter cópias simétricas acima e abaixo
   LERP:           0.038,
   WHEEL_SPEED:    0.42,
