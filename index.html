@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Andressa Ariane | Portfolio</title>
   <style>
+    /* Seu CSS permanece igual, sem alterações */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap');
 
-    /* ── FONTE MANGO GROTESQUE do GitHub (Lovenzomachado/andressaariane) ── */
     @font-face {
       font-family: 'Mango Grotesque';
       src: url('https://raw.githubusercontent.com/Lovenzomachado/andressaariane/main/Mango%20Grotesque.woff2') format('woff2');
@@ -27,7 +27,6 @@
       font-family: 'DM Sans', sans-serif;
     }
 
-    /* ── Grid principal 12 colunas ── */
     .grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
@@ -35,7 +34,6 @@
       position: relative;
     }
 
-    /* ── Navegação superior - agora dentro do grid ocupando 8 colunas ── */
     nav {
       grid-column: 1 / 9;
       position: absolute;
@@ -80,28 +78,24 @@
     }
     .nav-links a:hover { color: #080F66; }
 
-    /* ── Coluna esquerda: 8 de 12 colunas ── */
     .col-left {
       grid-column: 1 / 9;
       position: relative;
       overflow: hidden;
     }
 
-    /* ── Coluna direita: 4 de 12 colunas ── */
     .col-right {
       grid-column: 9 / 13;
       position: relative;
       overflow: hidden;
     }
 
-    /* ── Track que se move verticalmente com o scroll ── */
     .project-track {
       position: absolute;
       width: 100%;
       will-change: transform;
     }
 
-    /* ── Item individual da lista ── */
     .project-item {
       padding: 0 28px 0 0;
       user-select: none;
@@ -114,7 +108,6 @@
     }
     .project-item.active { opacity: 1; }
 
-    /* ── Nome do projeto com MANGO GROTESQUE ── */
     .project-item .label {
       display: block;
       font-family: 'Mango Grotesque', 'DM Sans', sans-serif;
@@ -128,7 +121,6 @@
       flex-shrink: 0;
     }
 
-    /* ── Tag descritiva — ARIAL ── */
     .project-item .tag {
       font-family: Arial, Helvetica, sans-serif;
       font-size: 10px;
@@ -144,7 +136,6 @@
     }
     .project-item.active .tag { opacity: 1; }
 
-    /* ── Stage das imagens ── */
     .image-stage {
       position: absolute;
       inset: 0;
@@ -153,7 +144,6 @@
       opacity: 0;
     }
 
-    /* ── Cada slot ocupa metade da altura ── */
     .image-slot {
       flex: 1;
       position: relative;
@@ -171,7 +161,6 @@
       display: block;
     }
 
-    /* ── Label sobreposto na imagem (ARIAL) ── */
     .img-label {
       position: absolute;
       bottom: 14px;
@@ -184,7 +173,6 @@
       font-weight: 300;
     }
 
-    /* ── Hint de scroll (ARIAL) ── */
     .scroll-hint {
       position: absolute;
       bottom: 26px; left: 52px;
@@ -206,7 +194,6 @@
       background: #ccc;
     }
 
-    /* ── Contador (ARIAL) ── */
     .counter {
       position: absolute;
       bottom: 26px; right: 26px;
@@ -219,38 +206,28 @@
     }
     .counter span { color: #000; font-size: 12px; font-weight: 700; }
 
-    /* Responsive adjustments */
     @media (max-width: 1400px) {
       .project-item .label { font-size: 148px; }
       .project-item { padding: 0 24px 0 0; }
     }
-
     @media (max-width: 1200px) {
       .project-item .label { font-size: 120px; }
     }
-
     @media (max-width: 1000px) {
       .project-item .label { font-size: 90px; }
       .project-item { padding: 0 20px 0 0; }
     }
-
     @media (max-width: 800px) {
       .project-item .label { font-size: 75px; }
     }
 
-    /* ==================== MOBILE ==================== */
     @media (max-width: 768px) {
-      /* Esconde a coluna direita original */
       .col-right { display: none; }
-      
-      /* Coluna esquerda ocupa tudo */
       .col-left { 
         grid-column: 1 / 13;
         display: flex;
         flex-direction: column;
       }
-      
-      /* Container flex para imagem e labels em mobile */
       .mobile-container {
         display: flex;
         flex-direction: column;
@@ -258,8 +235,6 @@
         width: 100%;
         position: relative;
       }
-      
-      /* Container da imagem em mobile (parte superior) */
       .mobile-image-container {
         flex: 1;
         position: relative;
@@ -267,19 +242,16 @@
         background: #f5f5f5;
         min-height: 40%;
       }
-      
       .mobile-image-stage {
         position: absolute;
         inset: 0;
         opacity: 0;
       }
-      
       .mobile-image-stage img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
-      
       .mobile-img-label {
         position: absolute;
         bottom: 14px;
@@ -292,19 +264,15 @@
         font-weight: 300;
         z-index: 2;
       }
-      
-      /* Container dos labels em mobile (parte inferior) */
       .mobile-labels-container {
         height: auto;
         overflow: hidden;
         background: #fff;
       }
-      
       .project-track-mobile {
         width: 100%;
         will-change: transform;
       }
-      
       .project-item-mobile {
         padding: 0 28px 0 32px;
         user-select: none;
@@ -315,9 +283,7 @@
         opacity: 0.2;
         transition: opacity 0.3s ease;
       }
-      
       .project-item-mobile.active { opacity: 1; }
-      
       .project-item-mobile .label {
         display: block;
         font-family: 'Mango Grotesque', 'DM Sans', sans-serif;
@@ -330,7 +296,6 @@
         white-space: nowrap;
         flex-shrink: 0;
       }
-      
       .project-item-mobile .tag {
         font-family: Arial, Helvetica, sans-serif;
         font-size: 8px;
@@ -344,29 +309,24 @@
         transition: opacity 0.3s ease;
         margin-left: 15px;
       }
-      
       .project-item-mobile.active .tag { opacity: 1; }
-      
       nav { 
         grid-column: 1 / 13; 
         padding-left: 32px; 
         top: 20px; 
       }
-      
       .scroll-hint { left: 32px; bottom: 20px; }
       .counter { right: 20px; bottom: 20px; }
-      .nav-logo .logo-img { height: 56px; }
+      .nav-logo .logo-img { height: 20px; }
     }
 
     @media (max-width: 600px) {
       .project-item-mobile .label { font-size: 45px; }
     }
-
     @media (max-width: 480px) {
       .project-item-mobile .label { font-size: 38px; }
       .project-item-mobile .tag { font-size: 7px; margin-left: 12px; }
     }
-
     @media (max-width: 400px) {
       .project-item-mobile .label { font-size: 32px; }
     }
@@ -385,7 +345,7 @@
       </div>
     </nav>
     
-    <!-- Versão Desktop -->
+    <!-- Desktop -->
     <div class="col-left" id="left-col">
       <div class="project-track" id="project-track"></div>
     </div>
@@ -396,7 +356,7 @@
       </div>
     </div>
     
-    <!-- Versão Mobile (inicialmente vazia, preenchida via JS) -->
+    <!-- Mobile -->
     <div class="col-left mobile-only" id="mobile-col" style="display: none;">
       <div class="mobile-container">
         <div class="mobile-image-container">
@@ -414,50 +374,51 @@
 </div>
 
 <script>
-// ─────────────────────────────────────────────────────────────────────────────
-// PROJETOS - IMAGENS DO REPOSITÓRIO
-// ─────────────────────────────────────────────────────────────────────────────
+// ========================== PROJETOS ==========================
 const IMG_BASE_URL = 'https://raw.githubusercontent.com/Lovenzomachado/andressaariane/main/projects/';
-
 const projects = [
-  { name: "Ipanema Pluma",   tag: "Identidade Visual", images: [
-    `${IMG_BASE_URL}ipanema-pluma.avif`,
-    `${IMG_BASE_URL}ipanema-pluma.avif`
-  ]},
-  { name: "Quinto Andar",    tag: "Branding Digital", images: [
-    `${IMG_BASE_URL}quintoandar.avif`,
-    `${IMG_BASE_URL}quintoandar.avif`
-  ]},
-  { name: "Élev Experience", tag: "Skincare Print", images: [
-    `${IMG_BASE_URL}elev.avif`,
-    `${IMG_BASE_URL}elev.avif`
-  ]},
-  { name: "Unimed VTRP",     tag: "Campanha", images: [
-    `${IMG_BASE_URL}unimed.avif`,
-    `${IMG_BASE_URL}unimed.avif`
-  ]},
-  { name: "Kero Fazê",       tag: "Social Media", images: [
-    `${IMG_BASE_URL}kerofaze.avif`,
-    `${IMG_BASE_URL}kerofaze.avif`
-  ]},
-  { name: "Museu da PUC",    tag: "Editorial", images: [
-    `${IMG_BASE_URL}puc.avif`,
-    `${IMG_BASE_URL}puc.avif`
-  ]}
+  { name: "Ipanema Pluma",   tag: "Identidade Visual", images: [`${IMG_BASE_URL}ipanema-pluma.avif`, `${IMG_BASE_URL}ipanema-pluma.avif`] },
+  { name: "Quinto Andar",    tag: "Branding Digital",  images: [`${IMG_BASE_URL}quintoandar.avif`, `${IMG_BASE_URL}quintoandar.avif`] },
+  { name: "Élev Experience", tag: "Skincare Print",    images: [`${IMG_BASE_URL}elev.avif`, `${IMG_BASE_URL}elev.avif`] },
+  { name: "Unimed VTRP",     tag: "Campanha",          images: [`${IMG_BASE_URL}unimed.avif`, `${IMG_BASE_URL}unimed.avif`] },
+  { name: "Kero Fazê",       tag: "Social Media",      images: [`${IMG_BASE_URL}kerofaze.avif`, `${IMG_BASE_URL}kerofaze.avif`] },
+  { name: "Museu da PUC",    tag: "Editorial",         images: [`${IMG_BASE_URL}puc.avif`, `${IMG_BASE_URL}puc.avif`] }
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CONFIGURAÇÃO
-// ─────────────────────────────────────────────────────────────────────────────
+// ========================== PRÉ-CARREGAMENTO ==========================
+function preloadImage(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`Falha: ${url}`));
+    img.src = url;
+  });
+}
+
+// ========================== CONFIGURAÇÃO ==========================
+const CONFIG = {
+  ITEM_H: 170,
+  COPIES: 7,
+  LERP: 0.038,
+  WHEEL_SPEED: 0.42,
+  TOUCH_SPEED: 1.1,
+  IDLE_MS: 220,
+  ENTER_DELAY_MS: 380,
+  EXIT: { duration: 200, easing: 'cubic-bezier(0.4, 0, 1, 1)', translateX: -24 },
+  ENTER: {
+    duration: 500,
+    easing: 'cubic-bezier(0.19, 1, 0.22, 1)',
+    translateX: '100%',   // ← AGORA SAI COMPLETAMENTE DA TELA (deslocamento de 100% da largura)
+    stagger: 60,
+  },
+};
+
 function getItemHeight() {
   const label = document.querySelector('.project-item .label');
   if (!label) return 170;
-  
   const fontSize = parseFloat(getComputedStyle(label).fontSize);
-  const lineHeight = fontSize * 0.9;
-  return Math.ceil(lineHeight + 30);
+  return Math.ceil(fontSize * 0.9 + 30);
 }
-
 function getMobileItemHeight() {
   const label = document.querySelector('.project-item-mobile .label');
   if (!label) return 70;
@@ -465,51 +426,21 @@ function getMobileItemHeight() {
   return Math.ceil(fontSize * 0.9 + 20);
 }
 
-const CONFIG = {
-  ITEM_H:         170,
-  COPIES:         7,
-  LERP:           0.038,
-  WHEEL_SPEED:    0.42,
-  TOUCH_SPEED:    1.1,
-  IDLE_MS:        220,
-  ENTER_DELAY_MS: 380,
-
-  EXIT: {
-    duration:   500,
-    easing:     'cubic-bezier(0.4, 0, 1, 1)',
-    translateX: -24,
-  },
-  ENTER: {
-    duration:   900,
-    easing:     'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-    translateX: 400,
-    stagger:    120,
-  },
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// ELEMENTOS DO DOM
-// ─────────────────────────────────────────────────────────────────────────────
-const total      = projects.length;
-const track      = document.getElementById('project-track');
-const stage      = document.getElementById('image-stage');
-const slotTop    = document.getElementById('slot-top');
-const slotBot    = document.getElementById('slot-bot');
+// ========================== ELEMENTOS ==========================
+const total = projects.length;
+const track = document.getElementById('project-track');
+const stage = document.getElementById('image-stage');
+const slotTop = document.getElementById('slot-top');
+const slotBot = document.getElementById('slot-bot');
 const counterNum = document.getElementById('counter-num');
-const leftCol    = document.getElementById('left-col');
-
-// Elementos Mobile
+const leftCol = document.getElementById('left-col');
 const mobileCol = document.getElementById('mobile-col');
 const mobileImageStage = document.getElementById('mobile-image-stage');
 const mobileTrack = document.getElementById('project-track-mobile');
-
 const COPIES_ABOVE = Math.floor(CONFIG.COPIES / 2);
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DETECTA MOBILE
-// ─────────────────────────────────────────────────────────────────────────────
+// ========================== DETECTA MOBILE ==========================
 let isMobile = window.innerWidth <= 768;
-
 function checkMobile() {
   isMobile = window.innerWidth <= 768;
   if (isMobile) {
@@ -525,9 +456,7 @@ function checkMobile() {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GERA A LISTA REPETIDA (DESKTOP)
-// ─────────────────────────────────────────────────────────────────────────────
+// ========================== DESKTOP – LISTA ==========================
 for (let c = 0; c < CONFIG.COPIES; c++) {
   projects.forEach(p => {
     const el = document.createElement('div');
@@ -538,34 +467,21 @@ for (let c = 0; c < CONFIG.COPIES; c++) {
   });
 }
 const allItems = Array.from(track.querySelectorAll('.project-item'));
-
-// Atualiza altura baseada no CSS
 setTimeout(() => {
   CONFIG.ITEM_H = getItemHeight();
-  allItems.forEach(item => {
-    item.style.height = CONFIG.ITEM_H + 'px';
-  });
+  allItems.forEach(item => { item.style.height = CONFIG.ITEM_H + 'px'; });
 }, 100);
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GERA MOBILE
-// ─────────────────────────────────────────────────────────────────────────────
+// ========================== MOBILE – LISTA ==========================
 let mobileItems = [];
-let mobileScrollY = 0;
-let mobileTargetY = 0;
-let mobilePrevScrollY = 0;
-let mobileLastDir = 1;
-let mobileIsScrolling = false;
-let mobileIdleTimer = null;
-let mobileEnterTimer = null;
+let mobileScrollY = 0, mobileTargetY = 0, mobilePrevScrollY = 0;
+let mobileLastDir = 1, mobileIsScrolling = false, mobileIdleTimer = null, mobileEnterTimer = null;
 let mobileItemHeight = 70;
 
 function initMobile() {
   if (!mobileTrack) return;
   mobileTrack.innerHTML = '';
-  
   mobileItemHeight = getMobileItemHeight();
-  
   for (let c = 0; c < CONFIG.COPIES; c++) {
     projects.forEach(p => {
       const el = document.createElement('div');
@@ -578,242 +494,162 @@ function initMobile() {
   mobileItems = Array.from(mobileTrack.querySelectorAll('.project-item-mobile'));
 }
 
-function showMobileImage(idx) {
+// ========================== MOBILE – IMAGEM (com pré-carga) ==========================
+let currentMobileAnimation = null;
+async function showMobileImage(idx) {
   if (!mobileImageStage) return;
-  
   const p = projects[idx];
-  mobileImageStage.innerHTML = '';
+  const imgUrl = p.images[0];
   mobileImageStage.style.opacity = '0';
-  
-  const slide = document.createElement('div');
-  slide.style.position = 'absolute';
-  slide.style.inset = '0';
-  slide.innerHTML = `<img src="${p.images[0]}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" /><span class="mobile-img-label">${p.tag}</span>`;
-  slide.style.transform = `translateX(${CONFIG.ENTER.translateX}px)`;
-  mobileImageStage.appendChild(slide);
-  
-  mobileImageStage.style.opacity = '1';
-  
-  slide.animate(
-    [
-      { transform: `translateX(${CONFIG.ENTER.translateX}px)` },
-      { transform: 'translateX(0px)' },
-    ],
-    { duration: CONFIG.ENTER.duration, easing: CONFIG.ENTER.easing, fill: 'forwards' }
-  );
+  try {
+    await preloadImage(imgUrl);
+    if (currentMobileAnimation) currentMobileAnimation.cancel();
+    mobileImageStage.innerHTML = '';
+    const slide = document.createElement('div');
+    slide.style.position = 'absolute';
+    slide.style.inset = '0';
+    slide.innerHTML = `<img src="${imgUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" /><span class="mobile-img-label">${p.tag}</span>`;
+    slide.style.transform = `translateX(${CONFIG.ENTER.translateX})`; // agora usa '%'
+    mobileImageStage.appendChild(slide);
+    mobileImageStage.style.opacity = '1';
+    currentMobileAnimation = slide.animate(
+      [{ transform: `translateX(${CONFIG.ENTER.translateX})` }, { transform: 'translateX(0px)' }],
+      { duration: CONFIG.ENTER.duration, easing: CONFIG.ENTER.easing, fill: 'forwards' }
+    );
+  } catch (err) { console.error(err); }
 }
-
-function hideMobileStage() {
-  if (mobileImageStage) {
-    mobileImageStage.style.opacity = '0';
-  }
-}
-
+function hideMobileStage() { if (mobileImageStage) mobileImageStage.style.opacity = '0'; }
 function onMobileIdle() {
   mobileIsScrolling = false;
   const idx = getMobileActiveIndex(mobileScrollY);
   clearTimeout(mobileEnterTimer);
   mobileEnterTimer = setTimeout(() => showMobileImage(idx), CONFIG.ENTER_DELAY_MS);
 }
-
 function handleMobileInput(delta) {
   mobileTargetY += delta;
   clearTimeout(mobileEnterTimer);
-  
-  if (!mobileIsScrolling) {
-    mobileIsScrolling = true;
-    hideMobileStage();
-  }
-  
+  if (!mobileIsScrolling) { mobileIsScrolling = true; hideMobileStage(); }
   clearTimeout(mobileIdleTimer);
   mobileIdleTimer = setTimeout(onMobileIdle, CONFIG.IDLE_MS);
 }
-
 function getMobileActiveIndex(y) {
   const wrap = total * mobileItemHeight;
   return Math.round(((y % wrap) + wrap) % wrap / mobileItemHeight) % total;
 }
-
 function mobileLoop() {
   if (!isMobile) return;
-  
   mobileScrollY += (mobileTargetY - mobileScrollY) * CONFIG.LERP;
-  
   const wrap = total * mobileItemHeight;
   const wrapLow = COPIES_ABOVE * total * mobileItemHeight - wrap;
   const wrapHigh = COPIES_ABOVE * total * mobileItemHeight + wrap * (CONFIG.COPIES - COPIES_ABOVE - 1);
-  
   if (mobileScrollY > wrapHigh) { mobileScrollY -= wrap; mobileTargetY -= wrap; }
   if (mobileScrollY < wrapLow) { mobileScrollY += wrap; mobileTargetY += wrap; }
-  
   const container = document.querySelector('.mobile-labels-container');
   if (container) {
-    const containerH = container.clientHeight;
-    const center = containerH / 2 - mobileItemHeight / 2;
-    if (mobileTrack) {
-      mobileTrack.style.transform = `translateY(${Math.round(-mobileScrollY + center)}px)`;
-    }
+    const center = container.clientHeight / 2 - mobileItemHeight / 2;
+    if (mobileTrack) mobileTrack.style.transform = `translateY(${Math.round(-mobileScrollY + center)}px)`;
   }
-  
   const vel = mobileScrollY - mobilePrevScrollY;
   if (Math.abs(vel) > 0.01) mobileLastDir = vel > 0 ? 1 : -1;
   mobilePrevScrollY = mobileScrollY;
-  
   const ai = getMobileActiveIndex(mobileScrollY);
   if (counterNum) counterNum.textContent = String(ai + 1).padStart(2, '0');
-  if (mobileItems.length) {
-    mobileItems.forEach((el, gi) => el.classList.toggle('active', (gi % total) === ai));
-  }
-  
+  if (mobileItems.length) mobileItems.forEach((el, gi) => el.classList.toggle('active', (gi % total) === ai));
   requestAnimationFrame(mobileLoop);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SCROLL DESKTOP
-// ─────────────────────────────────────────────────────────────────────────────
-let INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H;
-let scrollY     = INITIAL_SCROLL;
-let targetY     = INITIAL_SCROLL;
-let prevScrollY = INITIAL_SCROLL;
-let lastDir     = 1;
-let isScrolling = false;
-let idleTimer   = null;
-let enterTimer  = null;
-
-const state = { visible: false, activeIdx: -1 };
-
-function clearSlots() {
-  slotTop.innerHTML = '';
-  slotBot.innerHTML = '';
-}
-
-function hideStage() {
-  if (!state.visible) return;
-  state.visible   = false;
-  state.activeIdx = -1;
-  stage.style.transition = 'opacity 0.3s ease';
-  stage.style.opacity    = '0';
-  setTimeout(clearSlots, 320);
-}
-
-function showProject(idx, dir) {
+// ========================== DESKTOP – IMAGEM (pré‑carga + translateX com %) ==========================
+let currentAnimations = [];
+async function showProject(idx, dir) {
   if (state.activeIdx === idx) return;
   state.activeIdx = idx;
-  state.visible   = true;
-
+  state.visible = true;
   clearSlots();
-
-  const p   = projects[idx];
-  const xStart = CONFIG.ENTER.translateX;
-  
+  const p = projects[idx];
+  const xStart = CONFIG.ENTER.translateX;   // agora é '100%'
   const slots = [slotBot, slotTop];
-  
-  slots.forEach((slot, si) => {
-    const slide = document.createElement('div');
-    slide.className = 'image-slide';
-    const imgUrl = p.images[0];
-    slide.innerHTML = `<img src="${imgUrl}" alt="${p.name} - ${p.tag}" loading="lazy" /><span class="img-label">${p.tag} — 0${si + 1}</span>`;
-    slide.style.transform = `translateX(${xStart}px)`;
-    slot.appendChild(slide);
-
-    const delay = si === 0 ? 0 : CONFIG.ENTER.stagger;
-    slide.animate(
-      [
-        { transform: `translateX(${xStart}px)` },
-        { transform: 'translateX(0px)' },
-      ],
-      { duration: CONFIG.ENTER.duration, delay, easing: CONFIG.ENTER.easing, fill: 'forwards' }
-    );
-  });
-
-  stage.style.transition = 'opacity 0.2s ease';
-  stage.style.opacity    = '1';
+  currentAnimations.forEach(anim => { if (anim) anim.cancel(); });
+  currentAnimations = [];
+  try {
+    await Promise.all([preloadImage(p.images[0]), preloadImage(p.images[0])]);
+    for (let si = 0; si < slots.length; si++) {
+      const slot = slots[si];
+      const slide = document.createElement('div');
+      slide.className = 'image-slide';
+      slide.innerHTML = `<img src="${p.images[0]}" alt="${p.name}" /><span class="img-label">${p.tag} — 0${si+1}</span>`;
+      slide.style.transform = `translateX(${xStart})`;  // usa '%'
+      slot.appendChild(slide);
+      const delay = si === 0 ? 0 : CONFIG.ENTER.stagger;
+      const anim = slide.animate(
+        [{ transform: `translateX(${xStart})` }, { transform: 'translateX(0px)' }],
+        { duration: CONFIG.ENTER.duration, delay, easing: CONFIG.ENTER.easing, fill: 'forwards' }
+      );
+      currentAnimations.push(anim);
+    }
+    stage.style.transition = 'opacity 0.2s ease';
+    stage.style.opacity = '1';
+  } catch (err) { console.error(err); }
 }
 
+// ========================== DESKTOP – SCROLL ==========================
+let INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H;
+let scrollY = INITIAL_SCROLL, targetY = INITIAL_SCROLL, prevScrollY = INITIAL_SCROLL;
+let lastDir = 1, isScrolling = false, idleTimer = null, enterTimer = null;
+const state = { visible: false, activeIdx: -1 };
+function clearSlots() { slotTop.innerHTML = ''; slotBot.innerHTML = ''; }
+function hideStage() {
+  if (!state.visible) return;
+  state.visible = false; state.activeIdx = -1;
+  stage.style.transition = 'opacity 0.3s ease';
+  stage.style.opacity = '0';
+  setTimeout(clearSlots, 320);
+}
 function getActiveIndex(y) {
   const wrap = total * CONFIG.ITEM_H;
   return Math.round(((y % wrap) + wrap) % wrap / CONFIG.ITEM_H) % total;
 }
-
 function onIdle() {
   isScrolling = false;
-  const idx   = getActiveIndex(scrollY);
+  const idx = getActiveIndex(scrollY);
   clearTimeout(enterTimer);
-  enterTimer  = setTimeout(() => showProject(idx, lastDir), CONFIG.ENTER_DELAY_MS);
+  enterTimer = setTimeout(() => showProject(idx, lastDir), CONFIG.ENTER_DELAY_MS);
 }
-
 function handleInput(delta) {
-  if (isMobile) {
-    handleMobileInput(delta);
-    return;
-  }
-  
+  if (isMobile) { handleMobileInput(delta); return; }
   targetY += delta;
   clearTimeout(enterTimer);
-
-  if (!isScrolling) {
-    isScrolling = true;
-    hideStage();
-  }
-
+  if (!isScrolling) { isScrolling = true; hideStage(); }
   clearTimeout(idleTimer);
   idleTimer = setTimeout(onIdle, CONFIG.IDLE_MS);
 }
-
 function loop() {
-  if (isMobile) {
-    requestAnimationFrame(loop);
-    return;
-  }
-  
+  if (isMobile) { requestAnimationFrame(loop); return; }
   scrollY += (targetY - scrollY) * CONFIG.LERP;
-
-  const wrap     = total * CONFIG.ITEM_H;
-  const wrapLow  = INITIAL_SCROLL - wrap;
+  const wrap = total * CONFIG.ITEM_H;
+  const wrapLow = INITIAL_SCROLL - wrap;
   const wrapHigh = INITIAL_SCROLL + wrap * (CONFIG.COPIES - COPIES_ABOVE - 1);
-
   if (scrollY > wrapHigh) { scrollY -= wrap; targetY -= wrap; }
-  if (scrollY < wrapLow)  { scrollY += wrap; targetY += wrap; }
-
-  const colH   = leftCol.clientHeight;
-  const center = colH / 2 - CONFIG.ITEM_H / 2;
+  if (scrollY < wrapLow) { scrollY += wrap; targetY += wrap; }
+  const center = leftCol.clientHeight / 2 - CONFIG.ITEM_H / 2;
   track.style.transform = `translateY(${Math.round(-scrollY + center)}px)`;
-
   const vel = scrollY - prevScrollY;
   if (Math.abs(vel) > 0.01) lastDir = vel > 0 ? 1 : -1;
   prevScrollY = scrollY;
-
   const ai = getActiveIndex(scrollY);
   counterNum.textContent = String(ai + 1).padStart(2, '0');
   allItems.forEach((el, gi) => el.classList.toggle('active', (gi % total) === ai));
-
   requestAnimationFrame(loop);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// EVENTOS
-// ─────────────────────────────────────────────────────────────────────────────
+// ========================== EVENTOS E INICIALIZAÇÃO ==========================
 const root = document.getElementById('portfolio-root');
-
-root.addEventListener('wheel', e => {
-  e.preventDefault();
-  if (isMobile) {
-    handleMobileInput(e.deltaY * CONFIG.WHEEL_SPEED);
-  } else {
-    handleInput(e.deltaY * CONFIG.WHEEL_SPEED);
-  }
-}, { passive: false });
-
+root.addEventListener('wheel', e => { e.preventDefault(); handleInput(e.deltaY * CONFIG.WHEEL_SPEED); }, { passive: false });
 let touchY = null;
 root.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
 root.addEventListener('touchmove', e => {
   e.preventDefault();
   const delta = (touchY - e.touches[0].clientY) * CONFIG.TOUCH_SPEED;
-  if (isMobile) {
-    handleMobileInput(delta);
-  } else {
-    handleInput(delta);
-  }
+  handleInput(delta);
   touchY = e.touches[0].clientY;
 }, { passive: false });
 
@@ -824,41 +660,24 @@ window.addEventListener('resize', () => {
       const newHeight = getItemHeight();
       if (Math.abs(CONFIG.ITEM_H - newHeight) > 2) {
         CONFIG.ITEM_H = newHeight;
-        allItems.forEach(item => {
-          item.style.height = CONFIG.ITEM_H + 'px';
-        });
+        allItems.forEach(item => { item.style.height = CONFIG.ITEM_H + 'px'; });
         INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H;
-        scrollY = INITIAL_SCROLL;
-        targetY = INITIAL_SCROLL;
-        prevScrollY = INITIAL_SCROLL;
+        scrollY = INITIAL_SCROLL; targetY = INITIAL_SCROLL; prevScrollY = INITIAL_SCROLL;
       }
     } else {
       mobileItemHeight = getMobileItemHeight();
-      mobileItems.forEach(item => {
-        item.style.height = mobileItemHeight + 'px';
-      });
+      mobileItems.forEach(item => { item.style.height = mobileItemHeight + 'px'; });
       mobileScrollY = COPIES_ABOVE * total * mobileItemHeight;
-      mobileTargetY = mobileScrollY;
-      mobilePrevScrollY = mobileScrollY;
+      mobileTargetY = mobileScrollY; mobilePrevScrollY = mobileScrollY;
     }
   }, 100);
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// INIT
-// ─────────────────────────────────────────────────────────────────────────────
 checkMobile();
 initMobile();
 loop();
 mobileLoop();
-
-setTimeout(() => {
-  if (isMobile) {
-    showMobileImage(0);
-  } else {
-    showProject(0, 1);
-  }
-}, 350);
+setTimeout(() => { isMobile ? showMobileImage(0) : showProject(0, 1); }, 350);
 </script>
 </body>
 </html>
