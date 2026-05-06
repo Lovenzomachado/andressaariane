@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -5,10 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Andressa Ariane | Portfolio</title>
   <style>
-    /* Seu CSS permanece igual, sem alterações */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap');
-
     @font-face {
       font-family: 'Mango Grotesque';
       src: url('https://raw.githubusercontent.com/Lovenzomachado/andressaariane/main/Mango%20Grotesque.woff2') format('woff2');
@@ -16,7 +15,6 @@
       font-style: normal;
       font-display: swap;
     }
-
     #portfolio-root {
       width: 100%;
       height: 100vh;
@@ -26,14 +24,12 @@
       background: #fff;
       font-family: 'DM Sans', sans-serif;
     }
-
     .grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       height: 100%;
       position: relative;
     }
-
     nav {
       grid-column: 1 / 9;
       position: absolute;
@@ -48,288 +44,55 @@
       z-index: 10;
       pointer-events: none;
     }
-    
-    .nav-logo {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #000;
-      pointer-events: auto;
-    }
-    
-    .nav-logo .logo-img {
-      height: 56px;
-      width: auto;
-      display: block;
-    }
-    
+    .nav-logo { font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: #000; pointer-events: auto; }
+    .nav-logo .logo-img { height: 56px; width: auto; display: block; }
     .nav-links { display: flex; gap: 28px; }
-    .nav-links a {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #2E3EFC;
-      text-decoration: none;
-      pointer-events: all;
-      transition: color 0.2s ease;
-    }
+    .nav-links a { font-family: Arial, Helvetica, sans-serif; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #2E3EFC; text-decoration: none; pointer-events: all; transition: color 0.2s ease; }
     .nav-links a:hover { color: #080F66; }
-
-    .col-left {
-      grid-column: 1 / 9;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .col-right {
-      grid-column: 9 / 13;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-track {
-      position: absolute;
-      width: 100%;
-      will-change: transform;
-    }
-
-    .project-item {
-      padding: 0 28px 0 0;
-      user-select: none;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      opacity: 0.2;
-      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    .col-left { grid-column: 1 / 9; position: relative; overflow: hidden; }
+    .col-right { grid-column: 9 / 13; position: relative; overflow: hidden; }
+    .project-track { position: absolute; width: 100%; will-change: transform; }
+    .project-item { padding: 0 28px 0 0; user-select: none; display: flex; flex-direction: row; align-items: center; justify-content: space-between; opacity: 0.2; transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
     .project-item.active { opacity: 1; }
-
-    .project-item .label {
-      display: block;
-      font-family: 'Mango Grotesque', 'DM Sans', sans-serif;
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 168px;
-      line-height: 0.9;
-      letter-spacing: -0.02em;
-      color: #000;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .project-item .tag {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 10px;
-      font-weight: 300;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #aaa;
-      white-space: nowrap;
-      flex-shrink: 0;
-      opacity: 0;
-      transition: opacity 0.8s ease 0.15s;
-      margin-left: 30px;
-    }
+    .project-item .label { display: block; font-family: 'Mango Grotesque', 'DM Sans', sans-serif; font-weight: 700; text-transform: uppercase; font-size: 168px; line-height: 0.9; letter-spacing: -0.02em; color: #000; white-space: nowrap; flex-shrink: 0; }
+    .project-item .tag { font-family: Arial, Helvetica, sans-serif; font-size: 10px; font-weight: 300; letter-spacing: 0.18em; text-transform: uppercase; color: #aaa; white-space: nowrap; flex-shrink: 0; opacity: 0; transition: opacity 0.8s ease 0.15s; margin-left: 30px; }
     .project-item.active .tag { opacity: 1; }
-
-    .image-stage {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      opacity: 0;
-    }
-
-    .image-slot {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .image-slide {
-      position: absolute;
-      inset: 0;
-    }
-    .image-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .img-label {
-      position: absolute;
-      bottom: 14px;
-      left: 16px;
-      font-size: 8px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 300;
-    }
-
-    .scroll-hint {
-      position: absolute;
-      bottom: 26px; left: 52px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 8.5px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #ccc;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 10;
-    }
-    .scroll-hint::before {
-      content: '';
-      display: block;
-      width: 20px;
-      height: 0.5px;
-      background: #ccc;
-    }
-
-    .counter {
-      position: absolute;
-      bottom: 26px; right: 26px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 9px;
-      font-weight: 300;
-      letter-spacing: 0.14em;
-      color: #ccc;
-      z-index: 10;
-    }
+    .image-stage { position: absolute; inset: 0; display: flex; flex-direction: column; opacity: 0; }
+    .image-slot { flex: 1; position: relative; overflow: hidden; }
+    .image-slide { position: absolute; inset: 0; }
+    .image-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .img-label { position: absolute; bottom: 14px; left: 16px; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); font-family: Arial, Helvetica, sans-serif; font-weight: 300; }
+    .scroll-hint { position: absolute; bottom: 26px; left: 52px; font-family: Arial, Helvetica, sans-serif; font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #ccc; display: flex; align-items: center; gap: 10px; z-index: 10; }
+    .scroll-hint::before { content: ''; display: block; width: 20px; height: 0.5px; background: #ccc; }
+    .counter { position: absolute; bottom: 26px; right: 26px; font-family: Arial, Helvetica, sans-serif; font-size: 9px; font-weight: 300; letter-spacing: 0.14em; color: #ccc; z-index: 10; }
     .counter span { color: #000; font-size: 12px; font-weight: 700; }
-
-    @media (max-width: 1400px) {
-      .project-item .label { font-size: 148px; }
-      .project-item { padding: 0 24px 0 0; }
-    }
-    @media (max-width: 1200px) {
-      .project-item .label { font-size: 120px; }
-    }
-    @media (max-width: 1000px) {
-      .project-item .label { font-size: 90px; }
-      .project-item { padding: 0 20px 0 0; }
-    }
-    @media (max-width: 800px) {
-      .project-item .label { font-size: 75px; }
-    }
-
+    @media (max-width: 1400px) { .project-item .label { font-size: 148px; } .project-item { padding: 0 24px 0 0; } }
+    @media (max-width: 1200px) { .project-item .label { font-size: 120px; } }
+    @media (max-width: 1000px) { .project-item .label { font-size: 90px; } .project-item { padding: 0 20px 0 0; } }
+    @media (max-width: 800px) { .project-item .label { font-size: 75px; } }
     @media (max-width: 768px) {
       .col-right { display: none; }
-      .col-left { 
-        grid-column: 1 / 13;
-        display: flex;
-        flex-direction: column;
-      }
-      .mobile-container {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        width: 100%;
-        position: relative;
-      }
-      .mobile-image-container {
-        flex: 1;
-        position: relative;
-        overflow: hidden;
-        background: #f5f5f5;
-        min-height: 40%;
-      }
-      .mobile-image-stage {
-        position: absolute;
-        inset: 0;
-        opacity: 0;
-      }
-      .mobile-image-stage img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      .mobile-img-label {
-        position: absolute;
-        bottom: 14px;
-        left: 16px;
-        font-size: 8px;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: rgba(255,255,255,0.45);
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: 300;
-        z-index: 2;
-      }
-      .mobile-labels-container {
-        height: auto;
-        overflow: hidden;
-        background: #fff;
-      }
-      .project-track-mobile {
-        width: 100%;
-        will-change: transform;
-      }
-      .project-item-mobile {
-        padding: 0 28px 0 32px;
-        user-select: none;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        opacity: 0.2;
-        transition: opacity 0.3s ease;
-      }
+      .col-left { grid-column: 1 / 13; display: flex; flex-direction: column; }
+      .mobile-container { display: flex; flex-direction: column; height: 100%; width: 100%; position: relative; }
+      .mobile-image-container { flex: 1; position: relative; overflow: hidden; background: #f5f5f5; min-height: 40%; }
+      .mobile-image-stage { position: absolute; inset: 0; opacity: 0; }
+      .mobile-image-stage img { width: 100%; height: 100%; object-fit: cover; }
+      .mobile-img-label { position: absolute; bottom: 14px; left: 16px; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); font-family: Arial, Helvetica, sans-serif; font-weight: 300; z-index: 2; }
+      .mobile-labels-container { height: auto; overflow: hidden; background: #fff; }
+      .project-track-mobile { width: 100%; will-change: transform; }
+      .project-item-mobile { padding: 0 28px 0 32px; user-select: none; display: flex; flex-direction: row; align-items: center; justify-content: space-between; opacity: 0.2; transition: opacity 0.3s ease; }
       .project-item-mobile.active { opacity: 1; }
-      .project-item-mobile .label {
-        display: block;
-        font-family: 'Mango Grotesque', 'DM Sans', sans-serif;
-        font-weight: 700;
-        text-transform: uppercase;
-        font-size: 55px;
-        line-height: 0.9;
-        letter-spacing: -0.02em;
-        color: #000;
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-      .project-item-mobile .tag {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 8px;
-        font-weight: 300;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: #aaa;
-        white-space: nowrap;
-        flex-shrink: 0;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        margin-left: 15px;
-      }
+      .project-item-mobile .label { display: block; font-family: 'Mango Grotesque', 'DM Sans', sans-serif; font-weight: 700; text-transform: uppercase; font-size: 55px; line-height: 0.9; letter-spacing: -0.02em; color: #000; white-space: nowrap; flex-shrink: 0; }
+      .project-item-mobile .tag { font-family: Arial, Helvetica, sans-serif; font-size: 8px; font-weight: 300; letter-spacing: 0.18em; text-transform: uppercase; color: #aaa; white-space: nowrap; flex-shrink: 0; opacity: 0; transition: opacity 0.3s ease; margin-left: 15px; }
       .project-item-mobile.active .tag { opacity: 1; }
-      nav { 
-        grid-column: 1 / 13; 
-        padding-left: 32px; 
-        top: 20px; 
-      }
+      nav { grid-column: 1 / 13; padding-left: 32px; top: 20px; }
       .scroll-hint { left: 32px; bottom: 20px; }
       .counter { right: 20px; bottom: 20px; }
       .nav-logo .logo-img { height: 20px; }
     }
-
-    @media (max-width: 600px) {
-      .project-item-mobile .label { font-size: 45px; }
-    }
-    @media (max-width: 480px) {
-      .project-item-mobile .label { font-size: 38px; }
-      .project-item-mobile .tag { font-size: 7px; margin-left: 12px; }
-    }
-    @media (max-width: 400px) {
-      .project-item-mobile .label { font-size: 32px; }
-    }
+    @media (max-width: 600px) { .project-item-mobile .label { font-size: 45px; } }
+    @media (max-width: 480px) { .project-item-mobile .label { font-size: 38px; } .project-item-mobile .tag { font-size: 7px; margin-left: 12px; } }
+    @media (max-width: 400px) { .project-item-mobile .label { font-size: 32px; } }
   </style>
 </head>
 <body>
@@ -344,8 +107,6 @@
         <a href="#">Contato</a>
       </div>
     </nav>
-    
-    <!-- Desktop -->
     <div class="col-left" id="left-col">
       <div class="project-track" id="project-track"></div>
     </div>
@@ -355,8 +116,6 @@
         <div class="image-slot" id="slot-bot"></div>
       </div>
     </div>
-    
-    <!-- Mobile -->
     <div class="col-left mobile-only" id="mobile-col" style="display: none;">
       <div class="mobile-container">
         <div class="mobile-image-container">
@@ -368,24 +127,22 @@
       </div>
     </div>
   </div>
-
   <div class="scroll-hint">Scroll para navegar</div>
   <div class="counter"><span id="counter-num">01</span> / 06</div>
 </div>
 
 <script>
-// ========================== PROJETOS ==========================
 const IMG_BASE_URL = 'https://raw.githubusercontent.com/Lovenzomachado/andressaariane/main/projects/';
 const projects = [
-  { name: "Ipanema Pluma",   tag: "Identidade Visual", images: [`${IMG_BASE_URL}ipanema-pluma.avif`, `${IMG_BASE_URL}ipanema-pluma.avif`] },
-  { name: "Quinto Andar",    tag: "Branding Digital",  images: [`${IMG_BASE_URL}quintoandar.avif`, `${IMG_BASE_URL}quintoandar.avif`] },
-  { name: "Élev Experience", tag: "Skincare Print",    images: [`${IMG_BASE_URL}elev.avif`, `${IMG_BASE_URL}elev.avif`] },
-  { name: "Unimed VTRP",     tag: "Campanha",          images: [`${IMG_BASE_URL}unimed.avif`, `${IMG_BASE_URL}unimed.avif`] },
-  { name: "Kero Fazê",       tag: "Social Media",      images: [`${IMG_BASE_URL}kerofaze.avif`, `${IMG_BASE_URL}kerofaze.avif`] },
-  { name: "Museu da PUC",    tag: "Editorial",         images: [`${IMG_BASE_URL}puc.avif`, `${IMG_BASE_URL}puc.avif`] }
+  { name: "Ipanema Pluma",   tag: "Identidade Visual", images: [`${IMG_BASE_URL}ipanema-pluma.avif`] },
+  { name: "Quinto Andar",    tag: "Branding Digital",  images: [`${IMG_BASE_URL}quintoandar.avif`] },
+  { name: "Élev Experience", tag: "Skincare Print",    images: [`${IMG_BASE_URL}elev.avif`] },
+  { name: "Unimed VTRP",     tag: "Campanha",          images: [`${IMG_BASE_URL}unimed.avif`] },
+  { name: "Kero Fazê",       tag: "Social Media",      images: [`${IMG_BASE_URL}kerofaze.avif`] },
+  { name: "Museu da PUC",    tag: "Editorial",         images: [`${IMG_BASE_URL}puc.avif`] }
 ];
+const total = projects.length;
 
-// ========================== PRÉ-CARREGAMENTO ==========================
 function preloadImage(url) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -395,52 +152,280 @@ function preloadImage(url) {
   });
 }
 
-// ========================== CONFIGURAÇÃO ==========================
 const CONFIG = {
   ITEM_H: 170,
-  COPIES: 7,
-  LERP: 0.038,
+  LERP: 0.06,
   WHEEL_SPEED: 0.42,
   TOUCH_SPEED: 1.1,
   IDLE_MS: 220,
   ENTER_DELAY_MS: 380,
-  EXIT: { duration: 200, easing: 'cubic-bezier(0.4, 0, 1, 1)', translateX: -24 },
-  ENTER: {
-    duration: 500,
-    easing: 'cubic-bezier(0.19, 1, 0.22, 1)',
-    translateX: '100%',   // ← AGORA SAI COMPLETAMENTE DA TELA (deslocamento de 100% da largura)
-    stagger: 60,
-  },
+  ENTER: { duration: 500, easing: 'cubic-bezier(0.19, 1, 0.22, 1)', translateX: '100%', stagger: 60 },
 };
 
-function getItemHeight() {
-  const label = document.querySelector('.project-item .label');
-  if (!label) return 170;
-  const fontSize = parseFloat(getComputedStyle(label).fontSize);
-  return Math.ceil(fontSize * 0.9 + 30);
-}
-function getMobileItemHeight() {
-  const label = document.querySelector('.project-item-mobile .label');
-  if (!label) return 70;
-  const fontSize = parseFloat(getComputedStyle(label).fontSize);
-  return Math.ceil(fontSize * 0.9 + 20);
-}
-
-// ========================== ELEMENTOS ==========================
-const total = projects.length;
-const track = document.getElementById('project-track');
-const stage = document.getElementById('image-stage');
-const slotTop = document.getElementById('slot-top');
-const slotBot = document.getElementById('slot-bot');
-const counterNum = document.getElementById('counter-num');
-const leftCol = document.getElementById('left-col');
-const mobileCol = document.getElementById('mobile-col');
+// ─── DESKTOP ─────────────────────────────────────────────────────────────────
+const track       = document.getElementById('project-track');
+const stage       = document.getElementById('image-stage');
+const slotTop     = document.getElementById('slot-top');
+const slotBot     = document.getElementById('slot-bot');
+const counterNum  = document.getElementById('counter-num');
+const leftCol     = document.getElementById('left-col');
+const mobileCol   = document.getElementById('mobile-col');
 const mobileImageStage = document.getElementById('mobile-image-stage');
 const mobileTrack = document.getElementById('project-track-mobile');
-const COPIES_ABOVE = Math.floor(CONFIG.COPIES / 2);
 
-// ========================== DETECTA MOBILE ==========================
-let isMobile = window.innerWidth <= 768;
+let isMobile = false;
+
+// Gera cópias suficientes (número ímpar de ciclos para começar no meio)
+const COPIES = 9; // ímpar → o ciclo central é o 5º (índice 4)
+for (let i = 0; i < COPIES; i++) {
+  projects.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'project-item';
+    div.innerHTML = `<span class="label">${p.name}</span><span class="tag">${p.tag}</span>`;
+    track.appendChild(div);
+  });
+}
+const allItems = Array.from(track.querySelectorAll('.project-item'));
+
+// ─── LÓGICA CORRIGIDA ────────────────────────────────────────────────────────
+// "offset" = posição lógica de scroll, em unidades de item.
+// 0 = topo do track. O item ativo é sempre o que fica no centro da viewport.
+//
+// Para o infinito funcionar sem quebrar:
+// • Mantemos `logicOffset` como número real (pode crescer indefinidamente).
+// • A posição visual do track é calculada como:
+//     translateY = center - logicOffset * ITEM_H
+//   onde center = colHeight/2 - ITEM_H/2
+// • O índice ativo é  Math.round(logicOffset) mod total
+// • Para snap: arredondamos logicOffset para o inteiro mais próximo.
+// • Para o infinito: o track tem COPIES ciclos. Quando logicOffset sairia
+//   do intervalo [0, COPIES*total), reciclamos silenciosamente subtraindo
+//   `total` inteiros (sem nenhuma mudança visual perceptível).
+
+let logicOffset = Math.floor(COPIES / 2) * total; // começa no meio do track
+let targetOffset = logicOffset;
+let prevOffset = logicOffset;
+let isScrolling = false;
+let idleTimer = null;
+let enterTimer = null;
+const stageState = { activeIdx: -1, visible: false };
+
+function getActiveIndex(offset) {
+  return ((Math.round(offset) % total) + total) % total;
+}
+
+function updateTrackTransform() {
+  const center = leftCol.clientHeight / 2 - CONFIG.ITEM_H / 2;
+  // Cada item ocupa CONFIG.ITEM_H px. item i está em i*ITEM_H do topo do track.
+  // Queremos que o item "logicOffset" fique no centro:
+  //   top_of_active_item = logicOffset * ITEM_H
+  //   translateY = center - logicOffset * ITEM_H
+  track.style.transform = `translateY(${Math.round(center - logicOffset * CONFIG.ITEM_H)}px)`;
+}
+
+function recycleIfNeeded() {
+  // Mantém logicOffset e targetOffset no intervalo [total, (COPIES-1)*total)
+  // para que sempre haja itens acima e abaixo do ponto atual.
+  const lo = total;
+  const hi = (COPIES - 1) * total;
+  if (logicOffset < lo) {
+    const shift = total;
+    logicOffset += shift;
+    targetOffset += shift;
+    prevOffset += shift;
+  } else if (logicOffset > hi) {
+    const shift = total;
+    logicOffset -= shift;
+    targetOffset -= shift;
+    prevOffset -= shift;
+  }
+}
+
+function snapToNearest() {
+  targetOffset = Math.round(targetOffset);
+}
+
+function hideStage() {
+  if (!stageState.visible) return;
+  stageState.visible = false;
+  stageState.activeIdx = -1;
+  stage.style.transition = 'opacity 0.3s ease';
+  stage.style.opacity = '0';
+  setTimeout(() => { slotTop.innerHTML = ''; slotBot.innerHTML = ''; }, 320);
+}
+
+async function showProject(idx) {
+  if (stageState.activeIdx === idx) return;
+  stageState.activeIdx = idx;
+  stageState.visible = true;
+  slotTop.innerHTML = '';
+  slotBot.innerHTML = '';
+  const p = projects[idx];
+  const xStart = CONFIG.ENTER.translateX;
+  try {
+    await preloadImage(p.images[0]);
+    const makeSlide = (slot, label) => {
+      const slide = document.createElement('div');
+      slide.className = 'image-slide';
+      slide.innerHTML = `<img src="${p.images[0]}" alt="${p.name}" /><span class="img-label">${label}</span>`;
+      slide.style.transform = `translateX(${xStart})`;
+      slot.appendChild(slide);
+      return slide;
+    };
+    const s1 = makeSlide(slotBot, `${p.tag} — 01`);
+    const s2 = makeSlide(slotTop, `${p.tag} — 02`);
+    s1.animate([{ transform: `translateX(${xStart})` }, { transform: 'translateX(0px)' }], { duration: CONFIG.ENTER.duration, delay: 0, easing: CONFIG.ENTER.easing, fill: 'forwards' });
+    s2.animate([{ transform: `translateX(${xStart})` }, { transform: 'translateX(0px)' }], { duration: CONFIG.ENTER.duration, delay: CONFIG.ENTER.stagger, easing: CONFIG.ENTER.easing, fill: 'forwards' });
+    stage.style.transition = 'opacity 0.2s ease';
+    stage.style.opacity = '1';
+  } catch(e) { console.error(e); }
+}
+
+function onIdle() {
+  isScrolling = false;
+  snapToNearest();
+  const idx = getActiveIndex(targetOffset);
+  clearTimeout(enterTimer);
+  enterTimer = setTimeout(() => showProject(idx), CONFIG.ENTER_DELAY_MS);
+}
+
+function handleInput(delta) {
+  if (isMobile) { handleMobileInput(delta); return; }
+  // delta positivo = scroll para baixo = próximo projeto
+  targetOffset += delta / CONFIG.ITEM_H;
+  clearTimeout(enterTimer);
+  if (!isScrolling) { isScrolling = true; hideStage(); }
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(onIdle, CONFIG.IDLE_MS);
+}
+
+function updateItemHeights() {
+  const labels = document.querySelectorAll('.project-item .label');
+  if (!labels.length) return;
+  const fontSize = parseFloat(getComputedStyle(labels[0]).fontSize);
+  CONFIG.ITEM_H = Math.ceil(fontSize * 0.9 + 30);
+  allItems.forEach(el => el.style.height = CONFIG.ITEM_H + 'px');
+}
+
+function loop() {
+  if (!isMobile) {
+    logicOffset += (targetOffset - logicOffset) * CONFIG.LERP;
+    recycleIfNeeded();
+    updateTrackTransform();
+    const ai = getActiveIndex(logicOffset);
+    counterNum.textContent = String(ai + 1).padStart(2, '0');
+    allItems.forEach((el, i) => el.classList.toggle('active', (i % total) === ai));
+  }
+  requestAnimationFrame(loop);
+}
+
+// ─── MOBILE ───────────────────────────────────────────────────────────────────
+const MOBILE_COPIES = 9;
+let mobileItems = [];
+let mobileItemH = 70;
+let mobileCycleH = 0;
+let mobileLogicOffset = 0;
+let mobileTargetOffset = 0;
+let mobilePrevOffset = 0;
+let mobileIsScrolling = false;
+let mobileIdleTimer = null;
+let mobileEnterTimer = null;
+
+function initMobile() {
+  mobileTrack.innerHTML = '';
+  const sample = document.querySelector('.project-item-mobile .label');
+  if (sample) {
+    const fontSize = parseFloat(getComputedStyle(sample).fontSize);
+    mobileItemH = Math.ceil(fontSize * 0.9 + 20);
+  } else {
+    mobileItemH = 70;
+  }
+  for (let i = 0; i < MOBILE_COPIES; i++) {
+    projects.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'project-item-mobile';
+      div.innerHTML = `<span class="label">${p.name}</span><span class="tag">${p.tag}</span>`;
+      div.style.height = mobileItemH + 'px';
+      mobileTrack.appendChild(div);
+    });
+  }
+  mobileItems = Array.from(mobileTrack.querySelectorAll('.project-item-mobile'));
+  mobileCycleH = total * mobileItemH;
+  mobileLogicOffset = Math.floor(MOBILE_COPIES / 2) * total;
+  mobileTargetOffset = mobileLogicOffset;
+  mobilePrevOffset = mobileLogicOffset;
+}
+
+function getMobileActiveIndex(offset) {
+  return ((Math.round(offset) % total) + total) % total;
+}
+
+function recycleMobileIfNeeded() {
+  const lo = total;
+  const hi = (MOBILE_COPIES - 1) * total;
+  if (mobileLogicOffset < lo) {
+    mobileLogicOffset += total; mobileTargetOffset += total; mobilePrevOffset += total;
+  } else if (mobileLogicOffset > hi) {
+    mobileLogicOffset -= total; mobileTargetOffset -= total; mobilePrevOffset -= total;
+  }
+}
+
+function snapMobile() { mobileTargetOffset = Math.round(mobileTargetOffset); }
+
+function hideMobileStage() {
+  if (mobileImageStage) mobileImageStage.style.opacity = '0';
+}
+
+async function showMobileImage(idx) {
+  if (!mobileImageStage) return;
+  const p = projects[idx];
+  mobileImageStage.style.opacity = '0';
+  try {
+    await preloadImage(p.images[0]);
+    mobileImageStage.innerHTML = '';
+    const slide = document.createElement('div');
+    slide.style.cssText = 'position:absolute;inset:0;';
+    slide.innerHTML = `<img src="${p.images[0]}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" /><span class="mobile-img-label">${p.tag}</span>`;
+    slide.style.transform = `translateX(${CONFIG.ENTER.translateX})`;
+    mobileImageStage.appendChild(slide);
+    mobileImageStage.style.opacity = '1';
+    slide.animate([{ transform: `translateX(${CONFIG.ENTER.translateX})` }, { transform: 'translateX(0px)' }], { duration: CONFIG.ENTER.duration, easing: CONFIG.ENTER.easing, fill: 'forwards' });
+  } catch(e) { console.error(e); }
+}
+
+function onMobileIdle() {
+  mobileIsScrolling = false;
+  snapMobile();
+  const idx = getMobileActiveIndex(mobileTargetOffset);
+  clearTimeout(mobileEnterTimer);
+  mobileEnterTimer = setTimeout(() => showMobileImage(idx), CONFIG.ENTER_DELAY_MS);
+}
+
+function handleMobileInput(delta) {
+  mobileTargetOffset += delta / mobileItemH;
+  clearTimeout(mobileEnterTimer);
+  if (!mobileIsScrolling) { mobileIsScrolling = true; hideMobileStage(); }
+  clearTimeout(mobileIdleTimer);
+  mobileIdleTimer = setTimeout(onMobileIdle, CONFIG.IDLE_MS);
+}
+
+function mobileLoop() {
+  if (isMobile) {
+    mobileLogicOffset += (mobileTargetOffset - mobileLogicOffset) * CONFIG.LERP;
+    recycleMobileIfNeeded();
+    const container = document.querySelector('.mobile-labels-container');
+    if (container) {
+      const center = container.clientHeight / 2 - mobileItemH / 2;
+      mobileTrack.style.transform = `translateY(${Math.round(center - mobileLogicOffset * mobileItemH)}px)`;
+    }
+    const ai = getMobileActiveIndex(mobileLogicOffset);
+    counterNum.textContent = String(ai + 1).padStart(2, '0');
+    if (mobileItems.length) mobileItems.forEach((el, i) => el.classList.toggle('active', (i % total) === ai));
+  }
+  requestAnimationFrame(mobileLoop);
+}
+
+// ─── SETUP ────────────────────────────────────────────────────────────────────
 function checkMobile() {
   isMobile = window.innerWidth <= 768;
   if (isMobile) {
@@ -448,7 +433,7 @@ function checkMobile() {
     leftCol.style.display = 'none';
     mobileCol.style.display = 'block';
     mobileCol.style.gridColumn = '1 / 13';
-    initMobile();
+    if (!mobileItems.length) initMobile();
   } else {
     document.querySelector('.col-right').style.display = 'block';
     leftCol.style.display = 'block';
@@ -456,228 +441,37 @@ function checkMobile() {
   }
 }
 
-// ========================== DESKTOP – LISTA ==========================
-for (let c = 0; c < CONFIG.COPIES; c++) {
-  projects.forEach(p => {
-    const el = document.createElement('div');
-    el.className = 'project-item';
-    el.style.height = CONFIG.ITEM_H + 'px';
-    el.innerHTML = `<span class="label">${p.name}</span><span class="tag">${p.tag}</span>`;
-    track.appendChild(el);
-  });
-}
-const allItems = Array.from(track.querySelectorAll('.project-item'));
-setTimeout(() => {
-  CONFIG.ITEM_H = getItemHeight();
-  allItems.forEach(item => { item.style.height = CONFIG.ITEM_H + 'px'; });
-}, 100);
-
-// ========================== MOBILE – LISTA ==========================
-let mobileItems = [];
-let mobileScrollY = 0, mobileTargetY = 0, mobilePrevScrollY = 0;
-let mobileLastDir = 1, mobileIsScrolling = false, mobileIdleTimer = null, mobileEnterTimer = null;
-let mobileItemHeight = 70;
-
-function initMobile() {
-  if (!mobileTrack) return;
-  mobileTrack.innerHTML = '';
-  mobileItemHeight = getMobileItemHeight();
-  for (let c = 0; c < CONFIG.COPIES; c++) {
-    projects.forEach(p => {
-      const el = document.createElement('div');
-      el.className = 'project-item-mobile';
-      el.style.height = mobileItemHeight + 'px';
-      el.innerHTML = `<span class="label">${p.name}</span><span class="tag">${p.tag}</span>`;
-      mobileTrack.appendChild(el);
-    });
-  }
-  mobileItems = Array.from(mobileTrack.querySelectorAll('.project-item-mobile'));
-}
-
-// ========================== MOBILE – IMAGEM (com pré-carga) ==========================
-let currentMobileAnimation = null;
-async function showMobileImage(idx) {
-  if (!mobileImageStage) return;
-  const p = projects[idx];
-  const imgUrl = p.images[0];
-  mobileImageStage.style.opacity = '0';
-  try {
-    await preloadImage(imgUrl);
-    if (currentMobileAnimation) currentMobileAnimation.cancel();
-    mobileImageStage.innerHTML = '';
-    const slide = document.createElement('div');
-    slide.style.position = 'absolute';
-    slide.style.inset = '0';
-    slide.innerHTML = `<img src="${imgUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" /><span class="mobile-img-label">${p.tag}</span>`;
-    slide.style.transform = `translateX(${CONFIG.ENTER.translateX})`; // agora usa '%'
-    mobileImageStage.appendChild(slide);
-    mobileImageStage.style.opacity = '1';
-    currentMobileAnimation = slide.animate(
-      [{ transform: `translateX(${CONFIG.ENTER.translateX})` }, { transform: 'translateX(0px)' }],
-      { duration: CONFIG.ENTER.duration, easing: CONFIG.ENTER.easing, fill: 'forwards' }
-    );
-  } catch (err) { console.error(err); }
-}
-function hideMobileStage() { if (mobileImageStage) mobileImageStage.style.opacity = '0'; }
-function onMobileIdle() {
-  mobileIsScrolling = false;
-  const idx = getMobileActiveIndex(mobileScrollY);
-  clearTimeout(mobileEnterTimer);
-  mobileEnterTimer = setTimeout(() => showMobileImage(idx), CONFIG.ENTER_DELAY_MS);
-}
-function handleMobileInput(delta) {
-  mobileTargetY += delta;
-  clearTimeout(mobileEnterTimer);
-  if (!mobileIsScrolling) { mobileIsScrolling = true; hideMobileStage(); }
-  clearTimeout(mobileIdleTimer);
-  mobileIdleTimer = setTimeout(onMobileIdle, CONFIG.IDLE_MS);
-}
-function getMobileActiveIndex(y) {
-  const wrap = total * mobileItemHeight;
-  return Math.round(((y % wrap) + wrap) % wrap / mobileItemHeight) % total;
-}
-function mobileLoop() {
-  if (!isMobile) return;
-  mobileScrollY += (mobileTargetY - mobileScrollY) * CONFIG.LERP;
-  const wrap = total * mobileItemHeight;
-  const wrapLow = COPIES_ABOVE * total * mobileItemHeight - wrap;
-  const wrapHigh = COPIES_ABOVE * total * mobileItemHeight + wrap * (CONFIG.COPIES - COPIES_ABOVE - 1);
-  if (mobileScrollY > wrapHigh) { mobileScrollY -= wrap; mobileTargetY -= wrap; }
-  if (mobileScrollY < wrapLow) { mobileScrollY += wrap; mobileTargetY += wrap; }
-  const container = document.querySelector('.mobile-labels-container');
-  if (container) {
-    const center = container.clientHeight / 2 - mobileItemHeight / 2;
-    if (mobileTrack) mobileTrack.style.transform = `translateY(${Math.round(-mobileScrollY + center)}px)`;
-  }
-  const vel = mobileScrollY - mobilePrevScrollY;
-  if (Math.abs(vel) > 0.01) mobileLastDir = vel > 0 ? 1 : -1;
-  mobilePrevScrollY = mobileScrollY;
-  const ai = getMobileActiveIndex(mobileScrollY);
-  if (counterNum) counterNum.textContent = String(ai + 1).padStart(2, '0');
-  if (mobileItems.length) mobileItems.forEach((el, gi) => el.classList.toggle('active', (gi % total) === ai));
-  requestAnimationFrame(mobileLoop);
-}
-
-// ========================== DESKTOP – IMAGEM (pré‑carga + translateX com %) ==========================
-let currentAnimations = [];
-async function showProject(idx, dir) {
-  if (state.activeIdx === idx) return;
-  state.activeIdx = idx;
-  state.visible = true;
-  clearSlots();
-  const p = projects[idx];
-  const xStart = CONFIG.ENTER.translateX;   // agora é '100%'
-  const slots = [slotBot, slotTop];
-  currentAnimations.forEach(anim => { if (anim) anim.cancel(); });
-  currentAnimations = [];
-  try {
-    await Promise.all([preloadImage(p.images[0]), preloadImage(p.images[0])]);
-    for (let si = 0; si < slots.length; si++) {
-      const slot = slots[si];
-      const slide = document.createElement('div');
-      slide.className = 'image-slide';
-      slide.innerHTML = `<img src="${p.images[0]}" alt="${p.name}" /><span class="img-label">${p.tag} — 0${si+1}</span>`;
-      slide.style.transform = `translateX(${xStart})`;  // usa '%'
-      slot.appendChild(slide);
-      const delay = si === 0 ? 0 : CONFIG.ENTER.stagger;
-      const anim = slide.animate(
-        [{ transform: `translateX(${xStart})` }, { transform: 'translateX(0px)' }],
-        { duration: CONFIG.ENTER.duration, delay, easing: CONFIG.ENTER.easing, fill: 'forwards' }
-      );
-      currentAnimations.push(anim);
-    }
-    stage.style.transition = 'opacity 0.2s ease';
-    stage.style.opacity = '1';
-  } catch (err) { console.error(err); }
-}
-
-// ========================== DESKTOP – SCROLL ==========================
-let INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H;
-let scrollY = INITIAL_SCROLL, targetY = INITIAL_SCROLL, prevScrollY = INITIAL_SCROLL;
-let lastDir = 1, isScrolling = false, idleTimer = null, enterTimer = null;
-const state = { visible: false, activeIdx: -1 };
-function clearSlots() { slotTop.innerHTML = ''; slotBot.innerHTML = ''; }
-function hideStage() {
-  if (!state.visible) return;
-  state.visible = false; state.activeIdx = -1;
-  stage.style.transition = 'opacity 0.3s ease';
-  stage.style.opacity = '0';
-  setTimeout(clearSlots, 320);
-}
-function getActiveIndex(y) {
-  const wrap = total * CONFIG.ITEM_H;
-  return Math.round(((y % wrap) + wrap) % wrap / CONFIG.ITEM_H) % total;
-}
-function onIdle() {
-  isScrolling = false;
-  const idx = getActiveIndex(scrollY);
-  clearTimeout(enterTimer);
-  enterTimer = setTimeout(() => showProject(idx, lastDir), CONFIG.ENTER_DELAY_MS);
-}
-function handleInput(delta) {
-  if (isMobile) { handleMobileInput(delta); return; }
-  targetY += delta;
-  clearTimeout(enterTimer);
-  if (!isScrolling) { isScrolling = true; hideStage(); }
-  clearTimeout(idleTimer);
-  idleTimer = setTimeout(onIdle, CONFIG.IDLE_MS);
-}
-function loop() {
-  if (isMobile) { requestAnimationFrame(loop); return; }
-  scrollY += (targetY - scrollY) * CONFIG.LERP;
-  const wrap = total * CONFIG.ITEM_H;
-  const wrapLow = INITIAL_SCROLL - wrap;
-  const wrapHigh = INITIAL_SCROLL + wrap * (CONFIG.COPIES - COPIES_ABOVE - 1);
-  if (scrollY > wrapHigh) { scrollY -= wrap; targetY -= wrap; }
-  if (scrollY < wrapLow) { scrollY += wrap; targetY += wrap; }
-  const center = leftCol.clientHeight / 2 - CONFIG.ITEM_H / 2;
-  track.style.transform = `translateY(${Math.round(-scrollY + center)}px)`;
-  const vel = scrollY - prevScrollY;
-  if (Math.abs(vel) > 0.01) lastDir = vel > 0 ? 1 : -1;
-  prevScrollY = scrollY;
-  const ai = getActiveIndex(scrollY);
-  counterNum.textContent = String(ai + 1).padStart(2, '0');
-  allItems.forEach((el, gi) => el.classList.toggle('active', (gi % total) === ai));
-  requestAnimationFrame(loop);
-}
-
-// ========================== EVENTOS E INICIALIZAÇÃO ==========================
 const root = document.getElementById('portfolio-root');
 root.addEventListener('wheel', e => { e.preventDefault(); handleInput(e.deltaY * CONFIG.WHEEL_SPEED); }, { passive: false });
 let touchY = null;
 root.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
 root.addEventListener('touchmove', e => {
   e.preventDefault();
+  if (touchY === null) return;
   const delta = (touchY - e.touches[0].clientY) * CONFIG.TOUCH_SPEED;
   handleInput(delta);
   touchY = e.touches[0].clientY;
 }, { passive: false });
-
 window.addEventListener('resize', () => {
+  updateItemHeights();
   checkMobile();
-  setTimeout(() => {
-    if (!isMobile) {
-      const newHeight = getItemHeight();
-      if (Math.abs(CONFIG.ITEM_H - newHeight) > 2) {
-        CONFIG.ITEM_H = newHeight;
-        allItems.forEach(item => { item.style.height = CONFIG.ITEM_H + 'px'; });
-        INITIAL_SCROLL = COPIES_ABOVE * total * CONFIG.ITEM_H;
-        scrollY = INITIAL_SCROLL; targetY = INITIAL_SCROLL; prevScrollY = INITIAL_SCROLL;
-      }
-    } else {
-      mobileItemHeight = getMobileItemHeight();
-      mobileItems.forEach(item => { item.style.height = mobileItemHeight + 'px'; });
-      mobileScrollY = COPIES_ABOVE * total * mobileItemHeight;
-      mobileTargetY = mobileScrollY; mobilePrevScrollY = mobileScrollY;
-    }
-  }, 100);
 });
 
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+updateItemHeights();
 checkMobile();
-initMobile();
+
+// Mostra primeiro projeto após um frame para garantir dimensões corretas
+setTimeout(() => {
+  updateTrackTransform();
+  const idx = getActiveIndex(logicOffset);
+  counterNum.textContent = String(idx + 1).padStart(2, '0');
+  allItems.forEach((el, i) => el.classList.toggle('active', (i % total) === idx));
+  showProject(idx);
+}, 120);
+
 loop();
 mobileLoop();
-setTimeout(() => { isMobile ? showMobileImage(0) : showProject(0, 1); }, 350);
 </script>
 </body>
 </html>
