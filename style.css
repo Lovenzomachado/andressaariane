@@ -1,0 +1,409 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap');
+
+@font-face {
+  font-family: 'Mango Grotesque';
+  src: url('https://raw.githubusercontent.com/Lovenzomachado/andressaariane/main/Mango%20Grotesque.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== ROOT ===== */
+#portfolio-root {
+  width: 100%;
+  height: 100vh;
+  min-height: 520px;
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ===== GRID ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  height: 100%;
+  position: relative;
+}
+
+/* ===== NAV ===== */
+nav {
+  grid-column: 1 / 9;
+  position: absolute;
+  top: 26px;
+  left: 0;
+  right: 0;
+  padding-left: 52px;
+  padding-right: 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.nav-logo {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #000;
+  pointer-events: auto;
+}
+
+.nav-logo .logo-img {
+  height: 56px;
+  width: auto;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+
+.nav-links a {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #2E3EFC;
+  text-decoration: none;
+  pointer-events: all;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: #080F66;
+}
+
+/* ===== COLUNAS ===== */
+.col-left {
+  grid-column: 1 / 9;
+  position: relative;
+  overflow: hidden;
+}
+
+.col-right {
+  grid-column: 9 / 13;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== TRACK DE PROJETOS (DESKTOP) ===== */
+.project-track {
+  position: absolute;
+  width: 100%;
+  will-change: transform;
+}
+
+.project-item {
+  padding: 0 28px 20px 0;
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  opacity: 0.2;
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-item.active {
+  opacity: 1;
+}
+
+/* ===== HOVER NOS ITENS INATIVOS (DESKTOP) ===== */
+.project-item:not(.active) {
+  cursor: pointer;
+}
+
+.project-item:not(.active):hover {
+  opacity: 0.5;
+  transition: opacity 0.25s ease;
+}
+
+.project-item .label {
+  display: block;
+  font-family: 'Mango Grotesque', 'DM Sans', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 168px;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: #000;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-bottom: -0.2em
+}
+
+.project-item .tag {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #aaa;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease 0.15s;
+  margin-left: 30px;
+}
+
+.project-item.active .tag {
+  opacity: 1;
+}
+
+/* ===== STAGE DE IMAGENS (DESKTOP) ===== */
+.image-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+}
+
+.image-slot {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-slide {
+  position: absolute;
+  inset: 0;
+}
+
+.image-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.img-label {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 300;
+}
+
+/* ===== HUD ===== */
+.scroll-hint {
+  position: absolute;
+  bottom: 26px;
+  left: 52px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 8.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
+}
+
+.scroll-hint::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 0.5px;
+  background: #ccc;
+}
+
+.counter {
+  position: absolute;
+  bottom: 26px;
+  right: 26px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  color: #ccc;
+  z-index: 10;
+}
+
+.counter span {
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ===== RESPONSIVE — DESKTOP INTERMEDIÁRIO ===== */
+@media (max-width: 1400px) {
+  .project-item .label { font-size: 148px; }
+  .project-item { padding: 0 24px 18px 0; }
+}
+
+@media (max-width: 1200px) {
+  .project-item .label { font-size: 120px; }
+}
+
+@media (max-width: 1000px) {
+  .project-item .label { font-size: 90px; }
+  .project-item { padding: 0 20px 14px 0; }
+}
+
+@media (max-width: 800px) {
+  .project-item .label { font-size: 75px; }
+}
+
+/* ===== MOBILE (≤768px) ===== */
+@media (max-width: 768px) {
+  .col-right { display: none; }
+
+  .col-left {
+    grid-column: 1 / 13;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+
+  .mobile-image-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #f5f5f5;
+    min-height: 40%;
+  }
+
+  .mobile-image-stage {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+
+  .mobile-image-stage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mobile-img-label {
+    position: absolute;
+    bottom: 14px;
+    left: 16px;
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    z-index: 2;
+  }
+
+  .mobile-labels-container {
+    height: auto;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .project-track-mobile {
+    width: 100%;
+    will-change: transform;
+  }
+
+  .project-item-mobile {
+    padding: 0 28px 12px 32px;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    opacity: 0.2;
+    transition: opacity 0.3s ease;
+  }
+
+  .project-item-mobile.active {
+    opacity: 1;
+  }
+
+  /* ===== HOVER NOS ITENS INATIVOS (MOBILE) ===== */
+  .project-item-mobile:not(.active) {
+    cursor: pointer;
+  }
+
+  .project-item-mobile:not(.active):hover {
+    opacity: 0.5;
+    transition: opacity 0.25s ease;
+  }
+
+  .project-item-mobile .label {
+    display: block;
+    font-family: 'Mango Grotesque', 'DM Sans', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 86px;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: #000;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-bottom: -0.2em;
+  }
+
+  .project-item-mobile .tag {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 8px;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #aaa;
+    white-space: nowrap;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    margin-left: 15px;
+  }
+
+  .project-item-mobile.active .tag {
+    opacity: 1;
+  }
+
+  nav {
+    grid-column: 1 / 13;
+    padding-left: 32px;
+    top: 20px;
+  }
+
+  .scroll-hint { left: 32px; bottom: 20px; }
+  .counter { right: 20px; bottom: 20px; }
+  .nav-logo .logo-img { height: 20px; }
+}
+
+@media (max-width: 600px) {
+  .project-item-mobile .label { font-size: 72px; }
+}
+
+@media (max-width: 480px) {
+  .project-item-mobile .label { font-size: 64px; }
+  .project-item-mobile .tag { font-size: 7px; margin-left: 12px; }
+}
+
+@media (max-width: 400px) {
+  .project-item-mobile .label { font-size: 32px; }
+}
