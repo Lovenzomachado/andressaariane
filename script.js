@@ -4,12 +4,78 @@
 const IMG_BASE_URL = 'https://raw.githubusercontent.com/Lovenzomachado/andressaariane/main/projects/';
 
 const projects = [
-  { name: 'Ipanema Pluma',   tag: 'Identidade Visual', images: [`${IMG_BASE_URL}ipanema-pluma.avif`] },
-  { name: 'Quinto Andar',    tag: 'Branding Digital',  images: [`${IMG_BASE_URL}quintoandar.avif`]   },
-  { name: 'Élev Experience', tag: 'Skincare Print',    images: [`${IMG_BASE_URL}elev.avif`]          },
-  { name: 'Unimed VTRP',     tag: 'Campanha',          images: [`${IMG_BASE_URL}unimed.avif`]        },
-  { name: 'Kero Fazê',       tag: 'Social Media',      images: [`${IMG_BASE_URL}kerofaze.avif`]      },
-  { name: 'Museu da PUC',    tag: 'Editorial',         images: [`${IMG_BASE_URL}puc.avif`]           },
+  {
+    name: 'Ipanema Pluma',
+    tag: 'Identidade Visual',
+    description: 'Lorem ipsun dolod its lorem ipsun dolod its. Lorem ipsun dolod its lorem ipsun dolod its lorem ipsun dolod its.',
+    images: [
+      `${IMG_BASE_URL}ipanema-pluma.avif`,
+      `${IMG_BASE_URL}ipanema-pluma-02.avif`,
+      `${IMG_BASE_URL}ipanema-pluma-03.avif`,
+      `${IMG_BASE_URL}ipanema-pluma-04.avif`,
+      `${IMG_BASE_URL}ipanema-pluma-05.avif`,
+    ],
+  },
+  {
+    name: 'Quinto Andar',
+    tag: 'Branding Digital',
+    description: 'Lorem ipsun dolod its lorem ipsun dolod its. Lorem ipsun dolod its lorem ipsun dolod its lorem ipsun dolod its.',
+    images: [
+      `${IMG_BASE_URL}quintoandar.avif`,
+      `${IMG_BASE_URL}quintoandar-02.avif`,
+      `${IMG_BASE_URL}quintoandar-03.avif`,
+      `${IMG_BASE_URL}quintoandar-04.avif`,
+      `${IMG_BASE_URL}quintoandar-05.avif`,
+    ],
+  },
+  {
+    name: 'Élev Experience',
+    tag: 'Skincare Print',
+    description: 'Lorem ipsun dolod its lorem ipsun dolod its. Lorem ipsun dolod its lorem ipsun dolod its lorem ipsun dolod its.',
+    images: [
+      `${IMG_BASE_URL}elev.avif`,
+      `${IMG_BASE_URL}elev-02.avif`,
+      `${IMG_BASE_URL}elev-03.avif`,
+      `${IMG_BASE_URL}elev-04.avif`,
+      `${IMG_BASE_URL}elev-05.avif`,
+    ],
+  },
+  {
+    name: 'Unimed VTRP',
+    tag: 'Campanha',
+    description: 'Lorem ipsun dolod its lorem ipsun dolod its. Lorem ipsun dolod its lorem ipsun dolod its lorem ipsun dolod its.',
+    images: [
+      `${IMG_BASE_URL}unimed.avif`,
+      `${IMG_BASE_URL}unimed-02.avif`,
+      `${IMG_BASE_URL}unimed-03.avif`,
+      `${IMG_BASE_URL}unimed-04.avif`,
+      `${IMG_BASE_URL}unimed-05.avif`,
+    ],
+  },
+  {
+    name: 'Kero Fazê',
+    tag: 'Social Media',
+    description: 'Lorem ipsun dolod its lorem ipsun dolod its. Lorem ipsun dolod its lorem ipsun dolod its lorem ipsun dolod its.',
+    images: [
+      `${IMG_BASE_URL}kerofaze.avif`,
+      `${IMG_BASE_URL}kerofaze-02.avif`,
+      `${IMG_BASE_URL}kerofaze-03.avif`,
+      `${IMG_BASE_URL}kerofaze-04.avif`,
+      `${IMG_BASE_URL}kerofaze-05.avif`,
+    ],
+  },
+  {
+    name: 'Museu da PUC',
+    tag: 'Editorial',
+    description: 'Lorem ipsun dolod its lorem ipsun dolod its. Lorem ipsun dolod its lorem ipsun dolod its lorem ipsun dolod its.',
+    images: [
+      `${IMG_BASE_URL}puc.avif`,
+      `${IMG_BASE_URL}puc-02.avif`,
+      `${IMG_BASE_URL}puc-03.avif`,
+      `${IMG_BASE_URL}puc-04.avif`,
+      `${IMG_BASE_URL}puc-05.avif`,
+    ],
+  },
 ];
 
 // =============================================================
@@ -26,6 +92,9 @@ const CONFIG = {
     easing:     'cubic-bezier(0.19, 1, 0.22, 1)',
     translateX: '100%',
     stagger:    150,     // delay entre os dois slots de imagem
+  },
+  MODAL: {
+    openDelayMs: 30,     // pequeno delay para garantir a transição de entrada
   },
 };
 
@@ -50,6 +119,14 @@ const mobileCol        = document.getElementById('mobile-col');
 const mobileImageStage = document.getElementById('mobile-image-stage');
 const mobileTrack      = document.getElementById('project-track-mobile');
 
+const projectModal     = document.getElementById('project-modal');
+const modalOverlay     = document.getElementById('modal-overlay');
+const modalCloseBtn    = document.getElementById('modal-close');
+const modalDescription = document.getElementById('modal-description');
+const modalTag         = document.getElementById('modal-tag');
+const modalScroll      = document.getElementById('modal-scroll');
+const modalGallery     = document.getElementById('modal-gallery');
+
 // =============================================================
 //  UTILITÁRIOS
 // =============================================================
@@ -65,6 +142,80 @@ function preloadImage(url) {
 function mod(n, m) {
   return ((n % m) + m) % m;
 }
+
+// =============================================================
+//  MODAL DE PROJETO — sobe da parte inferior
+// =============================================================
+let modalOpen = false;
+
+function openProjectModal(idx) {
+  const p = projects[mod(idx, total)];
+  if (!p) return;
+
+  modalDescription.textContent = p.description || '';
+  modalTag.innerHTML = `<span class="modal-tag-name">${p.name}</span>${p.tag}`;
+
+  modalGallery.innerHTML = '';
+  p.images.forEach((src, i) => {
+    const item = document.createElement('div');
+    item.className = 'modal-image-item';
+
+    const img = document.createElement('img');
+    img.src     = src;
+    img.alt     = `${p.name} — ${i + 1}`;
+    img.loading = 'lazy';
+    img.style.transitionDelay = `${0.26 + i * 0.05}s`;
+
+    item.appendChild(img);
+    modalGallery.appendChild(item);
+  });
+  modalScroll.scrollTop = 0;
+
+  projectModal.classList.remove('closing');
+  modalOverlay.classList.remove('closing');
+  modalOpen = true;
+  document.body.style.overflow = 'hidden';
+
+  // pequeno delay para garantir que a transição de entrada sempre rode,
+  // mesmo se a imagem já estiver em cache
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      projectModal.classList.add('open');
+      modalOverlay.classList.add('open');
+    }, CONFIG.MODAL.openDelayMs);
+  });
+}
+
+function closeProjectModal() {
+  if (!modalOpen) return;
+  modalOpen = false;
+  document.body.style.overflow = '';
+
+  // curva de saída diferente da de entrada (ver .project-modal.closing no CSS)
+  projectModal.classList.add('closing');
+  modalOverlay.classList.add('closing');
+  projectModal.classList.remove('open');
+  modalOverlay.classList.remove('open');
+  setTimeout(() => {
+    projectModal.classList.remove('closing');
+    modalOverlay.classList.remove('closing');
+  }, 420);
+}
+
+modalOverlay.addEventListener('click', closeProjectModal);
+
+modalCloseBtn.addEventListener('click', closeProjectModal);
+
+// clique fora da imagem/texto (no fundo do modal) também fecha
+projectModal.addEventListener('click', e => {
+  if (e.target === projectModal || e.target.classList.contains('modal-header')) {
+    closeProjectModal();
+  }
+});
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && modalOpen) closeProjectModal();
+});
 
 // =============================================================
 //  DESKTOP — GERAÇÃO DO TRACK
@@ -209,13 +360,19 @@ function loop() {
 }
 
 // =============================================================
-//  DESKTOP — CLIQUE NOS ITENS INATIVOS
+//  DESKTOP — CLIQUE NOS ITENS (ativo abre o modal, inativo navega)
 // =============================================================
 track.addEventListener('click', e => {
   const item = e.target.closest('.project-item');
-  if (!item || item.classList.contains('active')) return;
+  if (!item) return;
 
-  const itemIndex      = allItems.indexOf(item);
+  const itemIndex = allItems.indexOf(item);
+
+  if (item.classList.contains('active')) {
+    openProjectModal(itemIndex % total);
+    return;
+  }
+
   const currentRounded = Math.round(targetOffset);
   const targetMod      = itemIndex % total;
   const currentMod     = mod(currentRounded, total);
@@ -231,6 +388,11 @@ track.addEventListener('click', e => {
   clearTimeout(enterTimer);
   if (!isScrolling) { isScrolling = true; hideStage(); }
   idleTimer = setTimeout(onIdle, CONFIG.IDLE_MS);
+});
+
+// clique na imagem em destaque (desktop) também abre o modal
+stage.addEventListener('click', () => {
+  if (stageState.activeIdx >= 0) openProjectModal(stageState.activeIdx);
 });
 
 // =============================================================
@@ -330,13 +492,19 @@ function handleMobileInput(delta) {
 }
 
 // =============================================================
-//  MOBILE — CLIQUE NOS ITENS INATIVOS
+//  MOBILE — CLIQUE NOS ITENS (ativo abre o modal, inativo navega)
 // =============================================================
 mobileTrack.addEventListener('click', e => {
   const item = e.target.closest('.project-item-mobile');
-  if (!item || item.classList.contains('active')) return;
+  if (!item) return;
 
-  const itemIndex      = mobileItems.indexOf(item);
+  const itemIndex = mobileItems.indexOf(item);
+
+  if (item.classList.contains('active')) {
+    openProjectModal(itemIndex % total);
+    return;
+  }
+
   const currentRounded = Math.round(mobileTgtOffset);
   const targetMod      = itemIndex % total;
   const currentMod     = mod(currentRounded, total);
@@ -352,6 +520,12 @@ mobileTrack.addEventListener('click', e => {
   clearTimeout(mobileEnterTimer);
   if (!mobileScrolling) { mobileScrolling = true; hideMobileStage(); }
   mobileIdleTimer = setTimeout(onMobileIdle, CONFIG.IDLE_MS);
+});
+
+// clique na imagem em destaque (mobile) também abre o modal
+mobileImageStage.addEventListener('click', () => {
+  const idx = getMobileActiveIndex(mobileLogicOffset);
+  openProjectModal(idx);
 });
 
 // =============================================================
@@ -397,6 +571,7 @@ function checkMobile() {
 const root = document.getElementById('portfolio-root');
 
 root.addEventListener('wheel', e => {
+  if (modalOpen) return;
   e.preventDefault();
   handleInput(e.deltaY * CONFIG.WHEEL_SPEED);
 }, { passive: false });
@@ -404,6 +579,7 @@ root.addEventListener('wheel', e => {
 let touchY = null;
 root.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
 root.addEventListener('touchmove', e => {
+  if (modalOpen) return;
   e.preventDefault();
   if (touchY === null) return;
   handleInput((touchY - e.touches[0].clientY) * CONFIG.TOUCH_SPEED);
