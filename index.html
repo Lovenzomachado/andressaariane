@@ -7,10 +7,8 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <div id="portfolio-root">
   <div class="grid">
-
     <!-- ===== NAV ===== -->
     <nav>
       <div class="nav-logo">
@@ -25,12 +23,10 @@
         <a href="#">Contato</a>
       </div>
     </nav>
-
     <!-- ===== COLUNA ESQUERDA — NOMES DOS PROJETOS (DESKTOP) ===== -->
     <div class="col-left" id="left-col">
       <div class="project-track" id="project-track"></div>
     </div>
-
     <!-- ===== COLUNA DIREITA — IMAGENS (DESKTOP) ===== -->
     <div class="col-right">
       <div class="image-stage" id="image-stage">
@@ -38,33 +34,48 @@
         <div class="image-slot" id="slot-bot"></div>
       </div>
     </div>
-
     <!-- ===== MOBILE ===== -->
     <div class="col-left" id="mobile-col" style="display: none;">
       <div class="mobile-container">
-
         <!-- Imagem -->
         <div class="mobile-image-container">
           <div class="mobile-image-stage" id="mobile-image-stage"></div>
         </div>
-
         <!-- Nomes dos projetos -->
         <div class="mobile-labels-container">
           <div class="project-track-mobile" id="project-track-mobile"></div>
         </div>
-
       </div>
     </div>
-
   </div><!-- /.grid -->
-
   <!-- ===== HUD ===== -->
   <div class="scroll-hint">Scroll para navegar</div>
   <div class="counter">
     <span id="counter-num">01</span> / <span id="counter-total">06</span>
   </div>
-
 </div><!-- /#portfolio-root -->
+
+<!-- ===== OVERLAY (escurece e bloqueia clique no fundo) ===== -->
+<div class="modal-overlay" id="modal-overlay"></div>
+
+<!-- ===== MODAL DE PROJETO (sobe de baixo para cima) ===== -->
+<div class="project-modal" id="project-modal">
+  <button class="modal-close" id="modal-close" aria-label="Fechar">
+    <svg viewBox="0 0 24 24">
+      <line x1="4" y1="4" x2="20" y2="20"></line>
+      <line x1="20" y1="4" x2="4" y2="20"></line>
+    </svg>
+  </button>
+
+  <div class="modal-scroll" id="modal-scroll">
+    <div class="modal-header">
+      <p class="modal-description" id="modal-description"></p>
+      <div class="modal-tag" id="modal-tag"></div>
+    </div>
+
+    <div class="modal-gallery" id="modal-gallery"></div>
+  </div>
+</div>
 
 <script src="script.js"></script>
 </body>
